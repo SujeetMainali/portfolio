@@ -282,6 +282,7 @@ img {
   display: flex;
   align-items: center;
   gap: 1rem;
+  margin-left: auto;
 }
 
 @media screen and (max-width: 767px) {
@@ -927,6 +928,9 @@ img {
   }
   .nav__menu {
     margin-left: auto;
+  }
+  .nav__actions {
+    margin-left: 0;
   }
   .nav__list {
     display: flex;
