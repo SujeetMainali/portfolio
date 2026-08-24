@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Sujeet Mainali - Full-Stack Developer specializing in React, Next.js, Node.js and cloud-native applications."
+    />
+    <meta name="color-scheme" content="light dark" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="./css/style.css" />
+
+    <!-- =====BOX ICONS===== -->
+    <link
+      href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+    <link rel="icon" type="image" href="./images/profilepic.jpeg" />
+
+    <title>Sujeet Mainali · Full-Stack Developer</title>
+
+    <script>
+      (function () {
+        var palette = localStorage.getItem("palette") || "mono-emerald";
+        var theme = localStorage.getItem("theme");
+        if (!theme) {
+          theme = window.matchMedia("(prefers-color-scheme: dark)").matches
+            ? "dark"
+            : "light";
+        }
+        document.documentElement.setAttribute("data-palette", palette);
+        document.documentElement.setAttribute("data-theme", theme);
+      })();
+    </script>
+  </head>
+
+  <body>
+    <!--===== HEADER =====-->
+    <header class="l-header" id="header">
+      <nav class="nav bd-grid">
+        <a href="#home" class="nav__logo">Sujeet<span>.</span></a>
+
+        <div class="nav__menu" id="nav-menu">
+          <ul class="nav__list">
+            <li class="nav__item">
+              <a href="#home" class="nav__link active">Home</a>
+            </li>
+            <li class="nav__item">
+              <a href="#about" class="nav__link">About</a>
+            </li>
+            <li class="nav__item">
+              <a href="#skills" class="nav__link">Skills</a>
+            </li>
+            <li class="nav__item">
+              <a href="#experience" class="nav__link">Experience</a>
+            </li>
+            <li class="nav__item">
+              <a href="#projects" class="nav__link">Projects</a>
+            </li>
+            <li class="nav__item">
+              <a href="#contact" class="nav__link">Contact</a>
+            </li>
+          </ul>
+        </div>
+
+        <div class="nav__actions">
+          <!-- <select
+            class="palette-select"
+            id="palette-select"
+            aria-label="Color palette"
+          >
+            <option value="slate-amber">Amber</option>
+            <option value="mono-emerald">Emerald</option>
+            <option value="navy-cyan">Cyan</option>
+            <option value="warm-terracotta">Terracotta</option>
+          </select> -->
+          <button
+            class="theme-toggle"
+            id="theme-toggle"
+            aria-label="Toggle dark mode"
+            type="button"
+          >
+            <i class="bx bx-moon"></i>
+          </button>
+          <div class="nav__toggle" id="nav-toggle">
+            <i class="bx bx-menu"></i>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="l-main">
+      <!--===== HOME =====-->
+      <section class="home bd-grid" id="home">
+        <div class="home__data" data-reveal>
+          <span class="home__badge">Available for new opportunities</span>
+          <h1 class="home__title">
+            Hi, I'm <span class="home__title-color">Sujeet Mainali</span>
+          </h1>
+          <h2 class="home__subtitle">
+            Full-Stack Developer &amp; Senior Software Engineer
+          </h2>
+          <p class="home__text">
+            I design and build scalable web applications end-to-end - from
+            clean, responsive front-ends to robust APIs and cloud infrastructure
+            - with a focus on clean code and real product impact.
+          </p>
+
+          <div class="home__buttons">
+            <a href="#projects" class="button">View Projects</a>
+            <a href="#contact" class="button button--ghost">Get In Touch</a>
+          </div>
+
+          <div class="home__social">
+            <a
+              href="https://github.com/sujeetmainali"
+              class="home__social-icon"
+              target="_blank"
+              rel="noopener"
+              aria-label="GitHub"
+              ><i class="bx bxl-github"></i
+            ></a>
+            <a
+              href="https://www.linkedin.com/in/sujeetmainali/"
+              class="home__social-icon"
+              target="_blank"
+              rel="noopener"
+              aria-label="LinkedIn"
+              ><i class="bx bxl-linkedin"></i
+            ></a>
+            <a
+              href="mailto:mainalisujeet@gmail.com"
+              target="_blank"
+              rel="noopener"
+              class="home__social-icon"
+              aria-label="Email"
+              ><i class="bx bx-envelope"></i
+            ></a>
+          </div>
+        </div>
+
+        <div class="home__img" data-reveal data-reveal-delay="1">
+          <div class="home__img-ring">
+            <img src="./images/profilepic.jpeg" alt="Sujeet Mainali" />
+          </div>
+        </div>
+      </section>
+
+      <!--===== ABOUT =====-->
+      <section class="about section" id="about">
+        <h2 class="section-title" data-reveal>About Me</h2>
+        <span class="section-subtitle" data-reveal>Who I am</span>
+
+        <div class="about__container bd-grid">
+          <div class="about__img" data-reveal>
+            <img src="./images/profilepic.jpeg" alt="Sujeet Mainali" />
+          </div>
+
+          <div data-reveal data-reveal-delay="1">
+            <h3 class="about__subtitle">
+              Full-Stack Developer with 4+ years of experience
+            </h3>
+            <p class="about__text">
+              I have expertise across the full SDLC, from architecture to
+              deployment. I'm skilled in JavaScript, TypeScript, clean coding
+              practices, and design patterns, and I enjoy solving hard problems
+              as part of a collaborative team. I'm dedicated to delivering
+              innovative solutions and driving project success - and I genuinely
+              enjoy mentoring junior developers along the way.
+            </p>
+            <p class="about__text">
+              I hold a BSc (Hons) in Computing from Islington College, in
+              affiliation with London Metropolitan University.
+            </p>
+
+            <div class="about__stats">
+              <div class="about__stat">
+                <span class="about__stat-number">4+</span>
+                <span class="about__stat-label">Years Experience</span>
+              </div>
+              <div class="about__stat">
+                <span class="about__stat-number">6+</span>
+                <span class="about__stat-label">Major Projects</span>
+              </div>
+              <div class="about__stat">
+                <span class="about__stat-number">3</span>
+                <span class="about__stat-label">Companies</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!--===== SKILLS =====-->
+      <section class="skills section" id="skills">
+        <h2 class="section-title" data-reveal>Skills</h2>
+        <span class="section-subtitle" data-reveal>What I work with</span>
+
+        <div class="skills__container bd-grid">
+          <div class="skills__card" data-reveal>
+            <div class="skills__card-head">
+              <i class="bx bx-code-alt skills__card-icon"></i>
+              <h3 class="skills__card-title">Languages</h3>
+            </div>
+            <div class="skills__tags">
+              <span class="tag">JavaScript</span>
+              <span class="tag">TypeScript</span>
+              <span class="tag">C#</span>
+              <span class="tag">Python</span>
+              <span class="tag">HTML5</span>
+              <span class="tag">CSS3</span>
+              <span class="tag">SQL</span>
+            </div>
+          </div>
+
+          <div class="skills__card" data-reveal data-reveal-delay="1">
+            <div class="skills__card-head">
+              <i class="bx bx-layer skills__card-icon"></i>
+              <h3 class="skills__card-title">Frameworks &amp; Libraries</h3>
+            </div>
+            <div class="skills__tags">
+              <span class="tag">React.js</span>
+              <span class="tag">Next.js</span>
+              <span class="tag">Node.js</span>
+              <span class="tag">Nest.js</span>
+              <span class="tag">Express.js</span>
+              <span class="tag">FastAPI</span>
+              <span class="tag">GraphQL</span>
+              <span class="tag">Apollo</span>
+              <span class="tag">Redux Toolkit</span>
+              <span class="tag">React Query</span>
+              <span class="tag">Tailwind CSS</span>
+              <span class="tag">Shadcn UI</span>
+              <span class="tag">Chakra UI</span>
+              <span class="tag">Material UI</span>
+              <span class="tag">Vitest</span>
+            </div>
+          </div>
+
+          <div class="skills__card" data-reveal>
+            <div class="skills__card-head">
+              <i class="bx bx-data skills__card-icon"></i>
+              <h3 class="skills__card-title">Databases</h3>
+            </div>
+            <div class="skills__tags">
+              <span class="tag">PostgreSQL</span>
+              <span class="tag">MySQL</span>
+              <span class="tag">MongoDB</span>
+              <span class="tag">TypeORM</span>
+              <span class="tag">Prisma</span>
+            </div>
+          </div>
+
+          <div class="skills__card" data-reveal data-reveal-delay="1">
+            <div class="skills__card-head">
+              <i class="bx bxs-cloud skills__card-icon"></i>
+              <h3 class="skills__card-title">Cloud &amp; DevOps</h3>
+            </div>
+            <div class="skills__tags">
+              <span class="tag">AWS</span>
+              <span class="tag">AWS CDK</span>
+              <span class="tag">SAM CLI</span>
+              <span class="tag">Docker</span>
+              <span class="tag">Linux</span>
+              <span class="tag">Git</span>
+              <span class="tag">GitHub Actions</span>
+              <span class="tag">Nginx</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!--===== EXPERIENCE =====-->
+      <section class="experience section" id="experience">
+        <h2 class="section-title" data-reveal>Experience</h2>
+        <span class="section-subtitle" data-reveal>Where I've worked</span>
+
+        <div class="experience__container bd-grid">
+          <div class="experience__item" data-reveal>
+            <div class="experience__dot"></div>
+            <div class="experience__card">
+              <span class="experience__date">Jul 2026 - Present</span>
+              <h3 class="experience__role">Senior Software Engineer</h3>
+              <span class="experience__company">Cyberensic.ai</span>
+              <ul class="experience__list">
+                <li>Design and architect end-to-end features technically.</li>
+                <li>Drive product optimization and enhancement.</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="experience__item" data-reveal data-reveal-delay="1">
+            <div class="experience__dot"></div>
+            <div class="experience__card">
+              <span class="experience__date">Oct 2024 - Jun 2026</span>
+              <h3 class="experience__role">Full Stack Engineer</h3>
+              <span class="experience__company"
+                >Jams Assist, Inc. · Manteca, CA</span
+              >
+              <ul class="experience__list">
+                <li>
+                  Built responsive, user-friendly interfaces with Next.js, TSX,
+                  Shadcn UI and Tailwind CSS.
+                </li>
+                <li>
+                  Developed scalable server-side logic with Node.js, .NET, AWS
+                  CDK and Docker.
+                </li>
+                <li>
+                  Modeled NoSQL database schemas for high-throughput record
+                  storage.
+                </li>
+                <li>
+                  Designed RESTful APIs using SAM CLI, API Gateway and Lambda
+                  functions.
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="experience__item" data-reveal>
+            <div class="experience__dot"></div>
+            <div class="experience__card">
+              <span class="experience__date">Jun 2022 - Oct 2024</span>
+              <h3 class="experience__role">Full Stack Engineer</h3>
+              <span class="experience__company"
+                >Information Care Pvt. Ltd · Kathmandu</span
+              >
+              <ul class="experience__list">
+                <li>
+                  Implemented Atomic Design and clean-code principles across
+                  React.js interfaces.
+                </li>
+                <li>
+                  Built scalable back-end services with Node.js and Express.js.
+                </li>
+                <li>
+                  Modeled schemas and relationships in MySQL/PostgreSQL using
+                  TypeORM.
+                </li>
+                <li>
+                  Designed RESTful and GraphQL APIs connecting front-end and
+                  back-end systems.
+                </li>
+                <li>
+                  Mentored interns and junior developers through code reviews
+                  and guidance.
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!--===== PROJECTS =====-->
+      <section class="projects section" id="projects">
+        <h2 class="section-title" data-reveal>Projects</h2>
+        <span class="section-subtitle" data-reveal>Things I've built</span>
+
+        <div class="projects__container bd-grid">
+          <article class="project__card" data-reveal>
+            <div class="project__head">
+              <h3 class="project__title">CISO Adapt</h3>
+              <a
+                href="https://cisoadapt.ai/"
+                target="_blank"
+                rel="noopener"
+                class="project__link"
+                aria-label="Visit cisoadapt.ai"
+                ><i class="bx bx-link-external"></i
+              ></a>
+            </div>
+            <span class="project__role"
+              >Senior Software Engineer · Cyberensic.ai</span
+            >
+            <p class="project__text">
+              An AI-powered Governance, Risk, and Compliance (GRC) platform that
+              automates security operations and compliance monitoring across
+              frameworks like ISO 27001, Essential Eight, NIST CSF and PCI DSS -
+              with policy automation, AI-driven compliance assessments,
+              third-party risk evaluation and incident management for
+              organizations from SMBs to enterprises.
+            </p>
+            <div class="project__tags">
+              <span class="tag">Node.js</span>
+              <span class="tag">PostgreSQL</span>
+              <span class="tag">Prisma</span>
+              <span class="tag">AWS</span>
+            </div>
+          </article>
+
+          <article class="project__card" data-reveal data-reveal-delay="1">
+            <div class="project__head">
+              <h3 class="project__title">Jobsflow.ai</h3>
+              <a
+                href="https://jobsflow.ai/"
+                target="_blank"
+                rel="noopener"
+                class="project__link"
+                aria-label="Visit jobsflow.ai"
+                ><i class="bx bx-link-external"></i
+              ></a>
+            </div>
+            <span class="project__role"
+              >Senior Full Stack Engineer · Jams Assist, Inc.</span
+            >
+            <p class="project__text">
+              AI for your job workflow - a platform bringing AI-driven
+              automation to job-related workflows for both recruiter and
+              candidate experiences, including resume parsing, resume scoring,
+              AI interview, Interview scoring and suggestions, job matching,
+              interview scheduling and candidate engagement.
+            </p>
+            <div class="project__tags">
+              <span class="tag">Next.js</span>
+              <span class="tag">Node.js</span>
+              <span class="tag">AWS CDK</span>
+              <span class="tag">Tailwind CSS</span>
+            </div>
+          </article>
+
+          <article class="project__card" data-reveal>
+            <div class="project__head">
+              <h3 class="project__title">Service Delivery Application</h3>
+              <a
+                href="https://mypalika.com/"
+                target="_blank"
+                rel="noopener"
+                class="project__link"
+                aria-label="Visit mypalika.com"
+                ><i class="bx bx-link-external"></i
+              ></a>
+            </div>
+            <span class="project__role">Full Stack Developer</span>
+            <p class="project__text">
+              An all-in-one platform digitalizing municipality operations -
+              appointments, business registration, citizen charters, profiling
+              and verbal-dispute (Ijalas) handling, built as microservices
+              acting as one system.
+            </p>
+            <div class="project__tags">
+              <span class="tag">Node.js</span>
+              <span class="tag">React.js</span>
+              <span class="tag">PostgreSQL</span>
+              <span class="tag">TypeORM</span>
+              <span class="tag">GraphQL</span>
+              <span class="tag">WebSocket</span>
+            </div>
+          </article>
+
+          <article class="project__card" data-reveal data-reveal-delay="1">
+            <div class="project__head">
+              <h3 class="project__title">Connect Kishan</h3>
+              <a
+                href="https://connectkishan.com"
+                target="_blank"
+                rel="noopener"
+                class="project__link"
+                aria-label="Visit Connect Kishan"
+                ><i class="bx bx-link-external"></i
+              ></a>
+            </div>
+            <span class="project__role">Full Stack Developer</span>
+            <p class="project__text">
+              An all-in-one platform for farmers combining weather forecasting,
+              farmer registration, subsidy applications, call-center support and
+              training - also deployed for Benighat Rural Municipality and
+              Phetamun Municipality.
+            </p>
+            <div class="project__tags">
+              <span class="tag">Node.js</span>
+              <span class="tag">React.js</span>
+              <span class="tag">PostgreSQL</span>
+              <span class="tag">TypeORM</span>
+              <span class="tag">REST API</span>
+            </div>
+          </article>
+
+          <article class="project__card" data-reveal>
+            <div class="project__head">
+              <h3 class="project__title">Connect Kisan E-Commerce</h3>
+              <a
+                href="https://bazar.connectkisan.com"
+                target="_blank"
+                rel="noopener"
+                class="project__link"
+                aria-label="Visit bazar.connectkisan.com"
+                ><i class="bx bx-link-external"></i
+              ></a>
+            </div>
+            <span class="project__role">Team Lead / Full Stack Developer</span>
+            <p class="project__text">
+              A multi-vendor e-commerce platform offering a seamless shopping
+              experience with dynamic product listings, cart management and
+              checkout.
+            </p>
+            <div class="project__tags">
+              <span class="tag">Next.js</span>
+              <span class="tag">Node.js</span>
+              <span class="tag">GraphQL</span>
+              <span class="tag">PostgreSQL</span>
+              <span class="tag">Tailwind CSS</span>
+            </div>
+          </article>
+
+          <article class="project__card" data-reveal data-reveal-delay="1">
+            <div class="project__head">
+              <h3 class="project__title">Worksheet</h3>
+              <a
+                href="https://worksheet.cliffbyte.com"
+                target="_blank"
+                rel="noopener"
+                class="project__link"
+                aria-label="Visit Worksheet"
+                ><i class="bx bx-link-external"></i
+              ></a>
+            </div>
+            <span class="project__role">Team Lead, Full-Stack Developer</span>
+            <p class="project__text">
+              A franchise-based platform for sharing worksheets, question papers
+              and video resources with schools, alongside various training
+              programs.
+            </p>
+            <div class="project__tags">
+              <span class="tag">Node.js</span>
+              <span class="tag">React.js</span>
+              <span class="tag">PostgreSQL</span>
+              <span class="tag">TypeGraphQL</span>
+              <span class="tag">Apollo</span>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!--===== CERTIFICATIONS =====-->
+      <section class="certifications section" id="certifications">
+        <h2 class="section-title" data-reveal>Certifications</h2>
+        <span class="section-subtitle" data-reveal>Continued learning</span>
+
+        <div class="certifications__container bd-grid">
+          <div class="cert__card" data-reveal>
+            <i class="bx bx-badge-check cert__icon"></i>
+            <div>
+              <h3 class="cert__title">
+                AWS Academy Graduate - AWS Academy Machine Learning Foundations
+              </h3>
+              <span class="cert__meta"
+                >Amazon Web Services (AWS) · Issued Nov 2022</span
+              >
+            </div>
+          </div>
+          <div class="cert__card" data-reveal data-reveal-delay="1">
+            <i class="bx bx-badge-check cert__icon"></i>
+            <div>
+              <h3 class="cert__title">
+                AWS Academy Graduate - AWS Academy Cloud Foundations
+              </h3>
+              <span class="cert__meta"
+                >Amazon Web Services (AWS) · Issued Sep 2022</span
+              >
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!--===== CONTACT =====-->
+      <section class="contact section" id="contact">
+        <h2 class="section-title" data-reveal>Get In Touch</h2>
+        <span class="section-subtitle" data-reveal>Let's work together</span>
+
+        <div class="contact__container bd-grid" data-reveal>
+          <p class="contact__text">
+            I'm always open to discussing new projects, opportunities or ideas.
+            Reach out through any of the channels below.
+          </p>
+
+          <div class="contact__grid">
+            <a
+              href="mailto:mainalisujeet@gmail.com"
+              target="_blank"
+              rel="noopener"
+              class="contact__card"
+            >
+              <i class="bx bx-envelope contact__icon"></i>
+              <span class="contact__label">Email</span>
+              <span class="contact__value">mainalisujeet@gmail.com</span>
+            </a>
+            <a
+              href="https://www.linkedin.com/in/sujeetmainali/"
+              target="_blank"
+              rel="noopener"
+              class="contact__card"
+            >
+              <i class="bx bxl-linkedin contact__icon"></i>
+              <span class="contact__label">LinkedIn</span>
+              <span class="contact__value">/in/sujeetmainali</span>
+            </a>
+            <a
+              href="https://github.com/sujeetmainali"
+              target="_blank"
+              rel="noopener"
+              class="contact__card"
+            >
+              <i class="bx bxl-github contact__icon"></i>
+              <span class="contact__label">GitHub</span>
+              <span class="contact__value">/sujeetmainali</span>
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <!--===== FOOTER =====-->
+      <footer class="footer">
+        <p class="footer__title">Sujeet Mainali</p>
+        <p class="footer__tagline">Full-Stack Developer</p>
+        <div class="footer__social">
+          <a
+            href="https://github.com/sujeetmainali"
+            class="footer__icon"
+            target="_blank"
+            rel="noopener"
+            aria-label="GitHub"
+            ><i class="bx bxl-github"></i
+          ></a>
+          <a
+            href="https://www.linkedin.com/in/sujeetmainali/"
+            class="footer__icon"
+            target="_blank"
+            rel="noopener"
+            aria-label="LinkedIn"
+            ><i class="bx bxl-linkedin"></i
+          ></a>
+          <a
+            href="mailto:mainalisujeet@gmail.com"
+            target="_blank"
+            rel="noopener"
+            class="footer__icon"
+            aria-label="Email"
+            ><i class="bx bx-envelope"></i
+          ></a>
+        </div>
+        <p class="footer__copy">
+          &#169; <span id="year"></span> Sujeet Mainali. All rights reserved.
+        </p>
+      </footer>
+    </main>
+
+    <!--===== MAIN JS =====-->
+    <script src="./js/main.js"></script>
+  </body>
+</html>
