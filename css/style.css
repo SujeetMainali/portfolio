@@ -321,7 +321,7 @@ button {
   left: 0;
   top: 0;
   pointer-events: auto;
-  touch-action: none;
+  touch-action: pan-y;
   user-select: none;
   display: flex;
   flex-direction: column;

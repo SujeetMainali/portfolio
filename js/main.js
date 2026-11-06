@@ -349,7 +349,8 @@
   let iconDrag = null
   icons.forEach((el) => {
     el.addEventListener('pointerdown', (e) => {
-      if (e.button !== 0) return
+      // on touch screens a finger on an icon scrolls the desktop; a tap still opens it
+      if (e.button !== 0 || e.pointerType === 'touch') return
       suppressClick = false
       const r = el.getBoundingClientRect()
       iconDrag = { el, dx: e.clientX - r.left, dy: e.clientY - r.top, x0: e.clientX, y0: e.clientY, moving: false }
