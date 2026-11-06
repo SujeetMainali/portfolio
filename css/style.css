@@ -1421,12 +1421,20 @@ button {
 /*===== MOBILE =====*/
 @media screen and (max-width: 720px) {
   .menubar__menu,
-  .menubar__sys {
+  .menubar__right > .menubar__sys {
     display: none;
   }
+  /* phones: no sticky note; the headline sits at the top and the icons sit in a grid below it */
   .note {
-    width: 190px;
-    left: var(--s-3);
+    display: none;
+  }
+  .desk-title {
+    top: 56px;
+    bottom: auto;
+    right: auto;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
   }
   .icon {
     width: 88px;

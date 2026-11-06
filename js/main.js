@@ -22,8 +22,10 @@
     hour: 'numeric',
     minute: '2-digit',
   })
+  const clockShort = new Intl.DateTimeFormat('en-US', { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' })
   const tickClock = () => {
-    clock.textContent = clockFormat.format(new Date())
+    const narrow = window.matchMedia('(max-width: 720px)').matches
+    clock.textContent = (narrow ? clockShort : clockFormat).format(new Date())
   }
   tickClock()
   setInterval(tickClock, 15000)
@@ -316,9 +318,21 @@
     const rowH = narrow ? 92 : 104
     const isProject = (el) => el.dataset.open.indexOf('proj-') === 0
     const place = (el, x, y) => {
-      const pos = saved[el.dataset.open]
+      const pos = !narrow && saved[el.dataset.open]
       el.style.left = `${pos ? pos[0] : x}px`
       el.style.top = `${pos ? pos[1] : y}px`
+    }
+    if (narrow) {
+      // phones: a tidy grid of three columns under the headline
+      const cols = 3
+      const colW = (desk.width - 28) / cols
+      icons.forEach((el, i) => {
+        const col = i % cols
+        const row = Math.floor(i / cols)
+        el.style.left = `${14 + col * colW + (colW - el.offsetWidth) / 2}px`
+        el.style.top = `${210 + row * 112}px`
+      })
+      return
     }
     // documents and folders in two columns on the left, below the sticky note
     const top = narrow ? 150 : 320
