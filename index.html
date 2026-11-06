@@ -53,7 +53,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600&family=Newsreader:opsz,wght@6..72,400;6..72,500&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..600;1,9..144,400..600&family=Manrope:wght@400;500;600;700&display=swap"
       rel="stylesheet"
     />
 
@@ -108,99 +108,800 @@
           theme = localStorage.getItem("theme");
         } catch (e) {}
         if (!theme) {
-          theme = window.matchMedia("(prefers-color-scheme: dark)").matches
-            ? "dark"
-            : "light";
+          theme = "dark";
+        }
+        if (theme === "auto") {
+          theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
         }
         document.documentElement.setAttribute("data-theme", theme);
       })();
     </script>
-  </head>
+    </head>
 
   <body>
-    <a class="skip-link" href="#main">Skip to content</a>
+    <a class="skip-link" href="#desktop">Skip to desktop</a>
 
-    <!--===== HEADER =====-->
-    <header class="header" id="header">
-      <nav class="nav container" aria-label="Main">
-        <a href="#home" class="nav__logo">Sujeet<span>.</span></a>
-
-        <div class="nav__menu" id="nav-menu">
-          <ul class="nav__list">
-            <li><a href="#about" class="nav__link">About</a></li>
-            <li><a href="#skills" class="nav__link">Skills</a></li>
-            <li><a href="#experience" class="nav__link">Experience</a></li>
-            <li><a href="#projects" class="nav__link">Projects</a></li>
-            <li><a href="#contact" class="nav__link">Contact</a></li>
-          </ul>
-        </div>
-
-        <div class="nav__actions">
-          <button class="icon-btn" type="button" id="house-toggle">
-            <i class="bx bx-home-alt" aria-hidden="true"></i>
-          </button>
-          <button
-            class="icon-btn"
-            id="theme-toggle"
-            aria-label="Toggle dark mode"
-            type="button"
-          >
-            <i class="bx bx-moon" aria-hidden="true"></i>
-          </button>
-          <button
-            class="icon-btn nav__toggle"
-            id="nav-toggle"
-            type="button"
-            aria-label="Open menu"
-            aria-expanded="false"
-            aria-controls="nav-menu"
-          >
-            <i class="bx bx-menu" aria-hidden="true"></i>
-          </button>
-        </div>
-      </nav>
+    <!--===== MENU BAR =====-->
+    <header class="menubar" id="menubar">
+      <div class="menubar__left">
+        <span class="menubar__mark" aria-hidden="true">S</span>
+        <strong class="menubar__name">Sujeet Mainali</strong>
+        <nav class="menubar__menu" aria-label="Sections">
+          <button class="menubar__btn" type="button" data-open="about">About</button>
+          <button class="menubar__btn" type="button" data-open="skills">Skills</button>
+          <button class="menubar__btn" type="button" data-open="experience">Experience</button>
+          <button class="menubar__btn" type="button" data-open="projects">Projects</button>
+          <button class="menubar__btn" type="button" data-open="certifications">Certifications</button>
+          <button class="menubar__btn" type="button" data-open="contact">Contact</button>
+          <a class="menubar__btn" href="https://github.com/sujeetmainali" target="_blank" rel="noopener">GitHub</a>
+          <a class="menubar__btn" href="https://www.linkedin.com/in/sujeetmainali/" target="_blank" rel="noopener">LinkedIn</a>
+        </nav>
+      </div>
+      <div class="menubar__right">
+        <i class="bx bx-battery menubar__sys" aria-hidden="true"></i>
+        <i class="bx bx-wifi menubar__sys" aria-hidden="true"></i>
+        <i class="bx bx-search menubar__sys" aria-hidden="true"></i>
+        <button class="menubar__icon" type="button" id="cc-toggle" aria-label="Control Center" aria-expanded="false" aria-controls="cc">
+          <i class="bx bx-slider-alt" aria-hidden="true"></i>
+        </button>
+        <time class="menubar__clock" id="clock"></time>
+      </div>
     </header>
 
-    <main class="main" id="main">
-      <!--===== HOUSE (walk-through museum) =====-->
-      <section class="house container" id="house" aria-labelledby="house-title" hidden>
-        <h2 class="sr-only" id="house-title">Walk through the house</h2>
+    <!--===== ICONS =====-->
+    <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+      <symbol id="ic-folder" viewBox="0 0 64 52">
+        <path d="M4 9a5 5 0 0 1 5-5h15l5 5h26a5 5 0 0 1 5 5v31a5 5 0 0 1-5 5H9a5 5 0 0 1-5-5z" fill="#e09f3e"/>
+        <path d="M4 17h56v26a5 5 0 0 1-5 5H9a5 5 0 0 1-5-5z" fill="#f3c572"/>
+      </symbol>
+      <symbol id="ic-doc" viewBox="0 0 48 60">
+        <path d="M6 3h24l12 12v39a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3V6a3 3 0 0 1 3-3z" fill="#fbfbfa" stroke="#c9c9cc"/>
+        <path d="M30 3v9a3 3 0 0 0 3 3h9" fill="#e4e4e6" stroke="#c9c9cc"/>
+      </symbol>
+    </svg>
 
-        <div class="house__bar">
-          <nav class="house__rooms" aria-label="Go to a room">
-            <button class="chip" type="button" data-room="home" style="--room: #c8875a"><span class="chip__dot" aria-hidden="true"></span>Entrance</button>
-            <button class="chip" type="button" data-room="about" style="--room: #7f9e96"><span class="chip__dot" aria-hidden="true"></span>Study</button>
-            <button class="chip" type="button" data-room="skills" style="--room: #d9a441"><span class="chip__dot" aria-hidden="true"></span>Living room</button>
-            <button class="chip" type="button" data-room="experience" style="--room: #6f86a6"><span class="chip__dot" aria-hidden="true"></span>Workshop</button>
-            <button class="chip" type="button" data-room="projects" style="--room: #c4655a"><span class="chip__dot" aria-hidden="true"></span>Gallery</button>
-            <button class="chip" type="button" data-room="certifications" style="--room: #8d9a5b"><span class="chip__dot" aria-hidden="true"></span>Library</button>
-            <button class="chip" type="button" data-room="contact" style="--room: #5fa3b8"><span class="chip__dot" aria-hidden="true"></span>Porch</button>
-          </nav>
-          <div class="house__actions">
-            <button class="chip" type="button" id="house-view" aria-pressed="false">Overview</button>
-            <button class="btn btn--ghost btn--sm" type="button" id="house-exit">Leave the house</button>
+    <!--===== CONTROL CENTER =====-->
+    <section class="cc" id="cc" hidden aria-label="Control Center">
+      <div class="cc__card">
+        <p class="cc__label">Appearance</p>
+        <div class="cc__row">
+          <button class="cc__tile" type="button" data-theme-pick="light" aria-pressed="false">
+            <span class="cc__thumb cc__thumb--light" aria-hidden="true"></span><span class="cc__name">Light</span>
+          </button>
+          <button class="cc__tile" type="button" data-theme-pick="dark" aria-pressed="false">
+            <span class="cc__thumb cc__thumb--dark" aria-hidden="true"></span><span class="cc__name">Dark</span>
+          </button>
+          <button class="cc__tile" type="button" data-theme-pick="auto" aria-pressed="false">
+            <span class="cc__thumb cc__thumb--auto" aria-hidden="true"></span><span class="cc__name">Auto</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="cc__card">
+        <p class="cc__label">Wallpaper</p>
+        <div class="cc__row cc__row--4">
+          <button class="cc__tile" type="button" data-wall-pick="auto" aria-pressed="false">
+            <span class="cc__thumb cc__thumb--wall-auto" aria-hidden="true"><i class="bx bx-time-five"></i></span><span class="cc__name">Auto</span>
+          </button>
+          <button class="cc__tile" type="button" data-wall-pick="dawn" aria-pressed="false">
+            <span class="cc__thumb cc__thumb--dawn" aria-hidden="true"></span><span class="cc__name">Dawn</span>
+          </button>
+          <button class="cc__tile" type="button" data-wall-pick="aurora" aria-pressed="false">
+            <span class="cc__thumb cc__thumb--aurora" aria-hidden="true"></span><span class="cc__name">Aurora</span>
+          </button>
+          <button class="cc__tile" type="button" data-wall-pick="topo" aria-pressed="false">
+            <span class="cc__thumb cc__thumb--topo" aria-hidden="true"></span><span class="cc__name">Topographic</span>
+          </button>
+        </div>
+        <p class="cc__note" id="cc-wall-note">Auto follows your clock: dawn, then day, then evening.</p>
+      </div>
+
+      <div class="cc__card cc__card--switch">
+        <div>
+          <p class="cc__label">Sound effects</p>
+          <p class="cc__note">Soft clicks when folders and windows open.</p>
+        </div>
+        <button class="switch" type="button" role="switch" aria-checked="false" id="cc-sound" aria-label="Sound effects">
+          <span></span>
+        </button>
+      </div>
+    </section>
+
+    <!--===== DESKTOP =====-->
+    <main class="desktop" id="desktop">
+      <div class="desk-title" aria-hidden="true">
+        <p class="desk-title__small">welcome to my</p>
+        <p class="desk-title__big">portfolio.</p>
+      </div>
+
+      <nav class="icons" aria-label="Desktop">
+        <button class="icon" type="button" data-open="welcome">
+          <span class="icon__art"><svg viewBox="0 0 48 60" aria-hidden="true"><use href="#ic-doc"/></svg><span class="icon__badge">README</span></span>
+          <span class="icon__label">Read Me</span>
+        </button>
+        <button class="icon" type="button" data-open="about">
+          <span class="icon__art"><svg viewBox="0 0 64 52" aria-hidden="true"><use href="#ic-folder"/></svg></span>
+          <span class="icon__label">About Me</span>
+        </button>
+        <button class="icon" type="button" data-open="experience">
+          <span class="icon__art"><svg viewBox="0 0 64 52" aria-hidden="true"><use href="#ic-folder"/></svg></span>
+          <span class="icon__label">Experience</span>
+        </button>
+        <button class="icon" type="button" data-open="skills">
+          <span class="icon__art"><svg viewBox="0 0 64 52" aria-hidden="true"><use href="#ic-folder"/></svg></span>
+          <span class="icon__label">Skills</span>
+        </button>
+        <button class="icon" type="button" data-open="contact">
+          <span class="icon__art"><svg viewBox="0 0 48 60" aria-hidden="true"><use href="#ic-doc"/></svg><span class="icon__badge">VCF</span></span>
+          <span class="icon__label">Socials.vcf</span>
+        </button>
+        <button class="icon" type="button" data-open="certifications">
+          <span class="icon__art"><svg viewBox="0 0 48 60" aria-hidden="true"><use href="#ic-doc"/></svg><span class="icon__badge">MD</span></span>
+          <span class="icon__label">certifications.md</span>
+        </button>
+        <button class="icon" type="button" data-open="proj-0">
+          <span class="icon__art"><svg viewBox="0 0 64 52" aria-hidden="true"><use href="#ic-folder"/></svg></span>
+          <span class="icon__label">Project 01 (CISO Adapt)</span>
+        </button>
+        <button class="icon" type="button" data-open="proj-1">
+          <span class="icon__art"><svg viewBox="0 0 64 52" aria-hidden="true"><use href="#ic-folder"/></svg></span>
+          <span class="icon__label">Project 02 (Jobsflow.ai)</span>
+        </button>
+        <button class="icon" type="button" data-open="proj-2">
+          <span class="icon__art"><svg viewBox="0 0 64 52" aria-hidden="true"><use href="#ic-folder"/></svg></span>
+          <span class="icon__label">Project 03 (Service Delivery Application)</span>
+        </button>
+        <button class="icon" type="button" data-open="proj-3">
+          <span class="icon__art"><svg viewBox="0 0 64 52" aria-hidden="true"><use href="#ic-folder"/></svg></span>
+          <span class="icon__label">Project 04 (Connect Kishan)</span>
+        </button>
+        <button class="icon" type="button" data-open="proj-4">
+          <span class="icon__art"><svg viewBox="0 0 64 52" aria-hidden="true"><use href="#ic-folder"/></svg></span>
+          <span class="icon__label">Project 05 (Connect Kisan E-Commerce)</span>
+        </button>
+        <button class="icon" type="button" data-open="proj-5">
+          <span class="icon__art"><svg viewBox="0 0 64 52" aria-hidden="true"><use href="#ic-folder"/></svg></span>
+          <span class="icon__label">Project 06 (Worksheet)</span>
+        </button>
+      </nav>
+
+      <aside class="note" aria-label="Availability">
+        <p class="note__title">Available for new opportunities</p>
+        <ul class="note__list">
+          <li>Full-stack web applications</li>
+          <li>Cloud-native AWS systems</li>
+          <li>Mentoring and team leadership</li>
+        </ul>
+        <button class="note__btn" type="button" data-open="contact">Say hi</button>
+      </aside>
+
+<section class="win" data-win="welcome" hidden aria-label="Read Me">
+        <header class="win__bar" data-drag>
+          <div class="win__lights">
+            <button class="light light--close" type="button" data-close aria-label="Close"></button>
+            <button class="light light--min" type="button" data-min aria-label="Minimise"></button>
+            <button class="light light--max" type="button" data-max aria-label="Maximise"></button>
+          </div>
+          <h2 class="win__title">Read Me</h2>
+        </header>
+        <div class="win__body">
+          <section id="home" class="hero">
+            <div class="hero__text">
+              <p class="hero__status"><span class="status-dot" aria-hidden="true"></span>Available for new opportunities</p>
+              <h1 class="hero__title">Sujeet Mainali</h1>
+              <p class="hero__role">Full-Stack Developer &amp; Senior Software Engineer</p>
+              <p class="hero__lede">
+                I design and build scalable web applications end-to-end, from clean,
+                responsive front-ends to robust APIs and cloud infrastructure, with a
+                focus on clean code and real product impact.
+              </p>
+              <div class="hero__actions">
+                <button class="btn" type="button" data-open="projects">View projects</button>
+                <button class="btn btn--ghost" type="button" data-open="contact">Get in touch</button>
+              </div>
+              <div class="hero__actions">
+                <button class="btn btn--ghost" type="button" id="house-start" data-open="house">Walk through the house</button>
+              </div>
+              <div class="hero__social">
+                <a class="icon-btn" href="https://github.com/sujeetmainali" target="_blank" rel="noopener" aria-label="GitHub"><i class="bx bxl-github" aria-hidden="true"></i></a>
+                <a class="icon-btn" href="https://www.linkedin.com/in/sujeetmainali/" target="_blank" rel="noopener" aria-label="LinkedIn"><i class="bx bxl-linkedin" aria-hidden="true"></i></a>
+                <a class="icon-btn" href="mailto:mainalisujeet@gmail.com" aria-label="Email"><i class="bx bx-envelope" aria-hidden="true"></i></a>
+              </div>
+            </div>
+            <figure class="hero__portrait">
+              <img src="./images/profilepic.jpeg" alt="Sujeet Mainali, Full-Stack Developer and Senior Software Engineer" width="600" height="600" />
+              <figcaption class="hero__now"><strong>Now</strong> Senior Software Engineer at Cyberensic.ai</figcaption>
+            </figure>
+          </section>
+        </div>
+      </section>
+
+<section class="win" data-win="about" hidden aria-label="About Me">
+        <header class="win__bar" data-drag>
+          <div class="win__lights">
+            <button class="light light--close" type="button" data-close aria-label="Close"></button>
+            <button class="light light--min" type="button" data-min aria-label="Minimise"></button>
+            <button class="light light--max" type="button" data-max aria-label="Maximise"></button>
+          </div>
+          <h2 class="win__title">About Me</h2>
+        </header>
+        <div class="win__body">
+          <section id="about">
+            <div class="about__body">
+              <h3 class="about__lead">Full-Stack Developer with 4+ years of experience</h3>
+              <p>
+                I have expertise across the full SDLC, from architecture to deployment. I'm
+                skilled in JavaScript, TypeScript, clean coding practices, and design patterns,
+                and I enjoy solving hard problems as part of a collaborative team. I'm dedicated
+                to delivering innovative solutions and driving project success - and I genuinely
+                enjoy mentoring junior developers along the way.
+              </p>
+              <p>
+                I hold a BSc (Hons) in Computing from Islington College, in affiliation with
+                London Metropolitan University.
+              </p>
+            </div>
+            <dl class="stats">
+              <div class="stat">
+                <dt>Years experience</dt>
+                <dd><span data-count="4" data-suffix="+">4+</span></dd>
+              </div>
+              <div class="stat">
+                <dt>Major projects</dt>
+                <dd><span data-count="6" data-suffix="+">6+</span></dd>
+              </div>
+              <div class="stat">
+                <dt>Companies</dt>
+                <dd><span data-count="3">3</span></dd>
+              </div>
+            </dl>
+          </section>
+        </div>
+      </section>
+
+<section class="win" data-win="skills" hidden aria-label="Skills">
+        <header class="win__bar" data-drag>
+          <div class="win__lights">
+            <button class="light light--close" type="button" data-close aria-label="Close"></button>
+            <button class="light light--min" type="button" data-min aria-label="Minimise"></button>
+            <button class="light light--max" type="button" data-max aria-label="Maximise"></button>
+          </div>
+          <h2 class="win__title">Skills</h2>
+        </header>
+        <div class="win__body">
+          <section id="skills">
+            <h2 class="sr-only">Skills</h2>
+            <div class="skills">
+              <div class="skill-group">
+                <h3 class="skill-group__title"><i class="bx bx-code-alt" aria-hidden="true"></i> Languages</h3>
+                <div class="tags">
+                  <span class="tag skill-tag">JavaScript</span>
+                  <span class="tag skill-tag">TypeScript</span>
+                  <span class="tag skill-tag">C#</span>
+                  <span class="tag skill-tag">Python</span>
+                  <span class="tag skill-tag">HTML5</span>
+                  <span class="tag skill-tag">CSS3</span>
+                  <span class="tag skill-tag">SQL</span>
+                </div>
+              </div>
+              <div class="skill-group">
+                <h3 class="skill-group__title"><i class="bx bx-layer" aria-hidden="true"></i> Frameworks &amp; libraries</h3>
+                <div class="tags">
+                  <span class="tag skill-tag">React.js</span>
+                  <span class="tag skill-tag">Next.js</span>
+                  <span class="tag skill-tag">Node.js</span>
+                  <span class="tag skill-tag">Nest.js</span>
+                  <span class="tag skill-tag">Express.js</span>
+                  <span class="tag skill-tag">FastAPI</span>
+                  <span class="tag skill-tag">GraphQL</span>
+                  <span class="tag skill-tag">Apollo</span>
+                  <span class="tag skill-tag">Redux Toolkit</span>
+                  <span class="tag skill-tag">React Query</span>
+                  <span class="tag skill-tag">Tailwind CSS</span>
+                  <span class="tag skill-tag">Shadcn UI</span>
+                  <span class="tag skill-tag">Chakra UI</span>
+                  <span class="tag skill-tag">Material UI</span>
+                  <span class="tag skill-tag">Vitest</span>
+                </div>
+              </div>
+              <div class="skill-group">
+                <h3 class="skill-group__title"><i class="bx bx-data" aria-hidden="true"></i> Databases</h3>
+                <div class="tags">
+                  <span class="tag skill-tag">PostgreSQL</span>
+                  <span class="tag skill-tag">MySQL</span>
+                  <span class="tag skill-tag">MongoDB</span>
+                  <span class="tag skill-tag">TypeORM</span>
+                  <span class="tag skill-tag">Prisma</span>
+                </div>
+              </div>
+              <div class="skill-group">
+                <h3 class="skill-group__title"><i class="bx bxs-cloud" aria-hidden="true"></i> Cloud &amp; DevOps</h3>
+                <div class="tags">
+                  <span class="tag skill-tag">AWS</span>
+                  <span class="tag skill-tag">Docker</span>
+                  <span class="tag skill-tag">Linux</span>
+                  <span class="tag skill-tag">Git</span>
+                  <span class="tag skill-tag">GitHub Actions</span>
+                  <span class="tag skill-tag">Nginx</span>
+                </div>
+              </div>
+            </div>
+            <p class="hint">Skills used in a project open that project in the Projects window.</p>
+          </section>
+        </div>
+      </section>
+
+<section class="win" data-win="experience" hidden aria-label="Experience">
+        <header class="win__bar" data-drag>
+          <div class="win__lights">
+            <button class="light light--close" type="button" data-close aria-label="Close"></button>
+            <button class="light light--min" type="button" data-min aria-label="Minimise"></button>
+            <button class="light light--max" type="button" data-max aria-label="Maximise"></button>
+          </div>
+          <h2 class="win__title">Experience</h2>
+        </header>
+        <div class="win__body">
+          <section id="experience">
+            <h2 class="sr-only">Experience</h2>
+            <div class="timeline">
+              <details class="job" open>
+                <summary class="job__summary">
+                  <span class="job__when">Jul 2026 – Present</span>
+                  <span class="job__main">
+                    <span class="job__role">Senior Software Engineer</span>
+                    <span class="job__company">Cyberensic.ai</span>
+                  </span>
+                  <i class="bx bx-chevron-down job__chev" aria-hidden="true"></i>
+                </summary>
+                <ul class="job__list">
+                  <li>Design and architect end-to-end features technically.</li>
+                  <li>Drive product optimization and enhancement.</li>
+                </ul>
+              </details>
+              <details class="job" open>
+                <summary class="job__summary">
+                  <span class="job__when">Oct 2024 – Jun 2026</span>
+                  <span class="job__main">
+                    <span class="job__role">Full Stack Engineer</span>
+                    <span class="job__company">Jams Assist, Inc. · Manteca, CA</span>
+                  </span>
+                  <i class="bx bx-chevron-down job__chev" aria-hidden="true"></i>
+                </summary>
+                <ul class="job__list">
+                  <li>Built responsive, user-friendly interfaces with Next.js, TSX, Shadcn UI and Tailwind CSS.</li>
+                  <li>Developed scalable server-side logic with FastAPI, Docker, LangGraph.</li>
+                  <li>Modeled NoSQL database schemas for high-throughput record storage.</li>
+                </ul>
+              </details>
+              <details class="job">
+                <summary class="job__summary">
+                  <span class="job__when">Jun 2022 – Oct 2024</span>
+                  <span class="job__main">
+                    <span class="job__role">Full Stack Engineer</span>
+                    <span class="job__company">Information Care Pvt. Ltd · Kathmandu</span>
+                  </span>
+                  <i class="bx bx-chevron-down job__chev" aria-hidden="true"></i>
+                </summary>
+                <ul class="job__list">
+                  <li>Implemented Atomic Design and clean-code principles across React.js interfaces.</li>
+                  <li>Built scalable back-end services with Node.js and Express.js.</li>
+                  <li>Modeled schemas and relationships in MySQL/PostgreSQL using TypeORM.</li>
+                  <li>Designed RESTful and GraphQL APIs connecting front-end and back-end systems.</li>
+                  <li>Mentored interns and junior developers through code reviews and guidance.</li>
+                </ul>
+              </details>
+            </div>
+          </section>
+        </div>
+      </section>
+
+      <!--===== WINDOW: PROJECTS (Finder) =====-->
+      <section class="win win--finder" data-win="projects" hidden aria-label="Projects">
+        <header class="win__bar" data-drag>
+          <div class="win__lights">
+            <button class="light light--close" type="button" data-close aria-label="Close"></button>
+            <button class="light light--min" type="button" data-min aria-label="Minimise"></button>
+            <button class="light light--max" type="button" data-max aria-label="Maximise"></button>
+          </div>
+          <h2 class="win__title">Projects</h2>
+        </header>
+        <div class="win__body win__body--finder">
+          <div class="finder">
+            <aside class="finder__side" aria-label="Sidebar">
+              <p class="finder__group">Favorites</p>
+              <button class="finder__item is-current" type="button" data-open="projects"><i class="bx bx-folder" aria-hidden="true"></i> Projects</button>
+              <button class="finder__item" type="button" data-open="about"><i class="bx bx-user" aria-hidden="true"></i> About Me</button>
+              <button class="finder__item" type="button" data-open="skills"><i class="bx bx-code-alt" aria-hidden="true"></i> Skills</button>
+              <button class="finder__item" type="button" data-open="experience"><i class="bx bx-briefcase" aria-hidden="true"></i> Experience</button>
+              <p class="finder__group">Locations</p>
+              <button class="finder__item" type="button" data-open="certifications"><i class="bx bx-award" aria-hidden="true"></i> Certifications</button>
+              <button class="finder__item" type="button" data-open="contact"><i class="bx bx-envelope" aria-hidden="true"></i> Contact</button>
+            </aside>
+            <section class="finder__main" id="projects" aria-labelledby="projects-title">
+              <header class="finder__top">
+                <h2 class="finder__title" id="projects-title">Projects</h2>
+                <p class="filter__count" id="filter-count" aria-live="polite"></p>
+              </header>
+              <div class="filter">
+                <div class="filter__chips" id="filter-chips" role="group" aria-label="Filter projects by technology"></div>
+              </div>
+              <div class="finder__grid" id="project-list">
+              <button class="pfolder" type="button" data-open="proj-0" data-stack="Node.js|PostgreSQL|Prisma|AWS">
+                <span class="pfolder__art"><svg viewBox="0 0 64 52" aria-hidden="true"><use href="#ic-folder"/></svg></span>
+                <span class="pfolder__label">Project 01 (CISO Adapt)</span>
+              </button>
+              <button class="pfolder" type="button" data-open="proj-1" data-stack="Next.js|FastAPI|LangGraph|Tailwind CSS">
+                <span class="pfolder__art"><svg viewBox="0 0 64 52" aria-hidden="true"><use href="#ic-folder"/></svg></span>
+                <span class="pfolder__label">Project 02 (Jobsflow.ai)</span>
+              </button>
+              <button class="pfolder" type="button" data-open="proj-2" data-stack="Node.js|React.js|PostgreSQL|TypeORM|GraphQL|WebSocket">
+                <span class="pfolder__art"><svg viewBox="0 0 64 52" aria-hidden="true"><use href="#ic-folder"/></svg></span>
+                <span class="pfolder__label">Project 03 (Service Delivery Application)</span>
+              </button>
+              <button class="pfolder" type="button" data-open="proj-3" data-stack="Node.js|React.js|PostgreSQL|TypeORM|REST API">
+                <span class="pfolder__art"><svg viewBox="0 0 64 52" aria-hidden="true"><use href="#ic-folder"/></svg></span>
+                <span class="pfolder__label">Project 04 (Connect Kishan)</span>
+              </button>
+              <button class="pfolder" type="button" data-open="proj-4" data-stack="Next.js|Node.js|GraphQL|PostgreSQL|Tailwind CSS">
+                <span class="pfolder__art"><svg viewBox="0 0 64 52" aria-hidden="true"><use href="#ic-folder"/></svg></span>
+                <span class="pfolder__label">Project 05 (Connect Kisan E-Commerce)</span>
+              </button>
+              <button class="pfolder" type="button" data-open="proj-5" data-stack="Node.js|React.js|PostgreSQL|TypeGraphQL|Apollo">
+                <span class="pfolder__art"><svg viewBox="0 0 64 52" aria-hidden="true"><use href="#ic-folder"/></svg></span>
+                <span class="pfolder__label">Project 06 (Worksheet)</span>
+              </button>
+              </div>
+              <p class="hint">Open a folder to read about the project. Tags inside it filter this list.</p>
+            </section>
           </div>
         </div>
+      </section>
 
-        <div class="house-scene" id="house-scene">
+      <!--===== WINDOW: PROJECT 1 =====-->
+      <section class="win win--project" data-win="proj-0" hidden aria-label="CISO Adapt">
+        <header class="win__bar" data-drag>
+          <div class="win__lights">
+            <button class="light light--close" type="button" data-close aria-label="Close"></button>
+            <button class="light light--min" type="button" data-min aria-label="Minimise"></button>
+            <button class="light light--max" type="button" data-max aria-label="Maximise"></button>
+          </div>
+          <h2 class="win__title">CISO Adapt</h2>
+        </header>
+        <div class="win__body">
+          <article class="project project--sheet" data-stack="Node.js|PostgreSQL|Prisma|AWS">
+                <div class="project__head">
+                  <h3 class="project__title">CISO Adapt</h3>
+                  <a href="https://cisoadapt.ai/" target="_blank" rel="noopener" class="icon-btn icon-btn--sm" aria-label="Visit cisoadapt.ai"><i class="bx bx-link-external" aria-hidden="true"></i></a>
+                </div>
+                <p class="project__role">Senior Software Engineer · Cyberensic.ai</p>
+                <p class="project__text">
+                  An AI-powered Governance, Risk, and Compliance (GRC) platform that automates security
+                  operations and compliance monitoring across frameworks like ISO 27001, Essential Eight,
+                  NIST CSF and PCI DSS - with policy automation, AI-driven compliance assessments,
+                  third-party risk evaluation and incident management for organizations from SMBs to enterprises.
+                </p>
+                <div class="tags">
+                  <button class="tag tag--link" type="button" data-filter="Node.js">Node.js</button>
+                  <button class="tag tag--link" type="button" data-filter="PostgreSQL">PostgreSQL</button>
+                  <button class="tag tag--link" type="button" data-filter="Prisma">Prisma</button>
+                  <button class="tag tag--link" type="button" data-filter="AWS">AWS</button>
+                </div>
+              </article>
+        </div>
+      </section>
+
+      <!--===== WINDOW: PROJECT 2 =====-->
+      <section class="win win--project" data-win="proj-1" hidden aria-label="Jobsflow.ai">
+        <header class="win__bar" data-drag>
+          <div class="win__lights">
+            <button class="light light--close" type="button" data-close aria-label="Close"></button>
+            <button class="light light--min" type="button" data-min aria-label="Minimise"></button>
+            <button class="light light--max" type="button" data-max aria-label="Maximise"></button>
+          </div>
+          <h2 class="win__title">Jobsflow.ai</h2>
+        </header>
+        <div class="win__body">
+          <article class="project project--sheet" data-stack="Next.js|FastAPI|LangGraph|Tailwind CSS">
+                <div class="project__head">
+                  <h3 class="project__title">Jobsflow.ai</h3>
+                  <a href="https://jobsflow.ai/" target="_blank" rel="noopener" class="icon-btn icon-btn--sm" aria-label="Visit jobsflow.ai"><i class="bx bx-link-external" aria-hidden="true"></i></a>
+                </div>
+                <p class="project__role">Senior Full Stack Engineer · Jams Assist, Inc.</p>
+                <p class="project__text">
+                  AI for your job workflow - a platform bringing AI-driven automation to job-related
+                  workflows for both recruiter and candidate experiences, including resume parsing, resume
+                  scoring, AI interview, Interview scoring and suggestions, job matching, interview
+                  scheduling and candidate engagement.
+                </p>
+                <div class="tags">
+                  <button class="tag tag--link" type="button" data-filter="Next.js">Next.js</button>
+                  <button class="tag tag--link" type="button" data-filter="FastAPI">FastAPI</button>
+                  <button class="tag tag--link" type="button" data-filter="LangGraph">LangGraph</button>
+                  <button class="tag tag--link" type="button" data-filter="Tailwind CSS">Tailwind CSS</button>
+                </div>
+              </article>
+        </div>
+      </section>
+
+      <!--===== WINDOW: PROJECT 3 =====-->
+      <section class="win win--project" data-win="proj-2" hidden aria-label="Service Delivery Application">
+        <header class="win__bar" data-drag>
+          <div class="win__lights">
+            <button class="light light--close" type="button" data-close aria-label="Close"></button>
+            <button class="light light--min" type="button" data-min aria-label="Minimise"></button>
+            <button class="light light--max" type="button" data-max aria-label="Maximise"></button>
+          </div>
+          <h2 class="win__title">Service Delivery Application</h2>
+        </header>
+        <div class="win__body">
+          <article class="project project--sheet" data-stack="Node.js|React.js|PostgreSQL|TypeORM|GraphQL|WebSocket">
+                <div class="project__head">
+                  <h3 class="project__title">Service Delivery Application</h3>
+                  <a href="https://mypalika.com/" target="_blank" rel="noopener" class="icon-btn icon-btn--sm" aria-label="Visit mypalika.com"><i class="bx bx-link-external" aria-hidden="true"></i></a>
+                </div>
+                <p class="project__role">Full Stack Developer</p>
+                <p class="project__text">
+                  An all-in-one platform digitalizing municipality operations - appointments, business
+                  registration, citizen charters, profiling and verbal-dispute (Ijalas) handling, built as
+                  microservices acting as one system.
+                </p>
+                <div class="tags">
+                  <button class="tag tag--link" type="button" data-filter="Node.js">Node.js</button>
+                  <button class="tag tag--link" type="button" data-filter="React.js">React.js</button>
+                  <button class="tag tag--link" type="button" data-filter="PostgreSQL">PostgreSQL</button>
+                  <button class="tag tag--link" type="button" data-filter="TypeORM">TypeORM</button>
+                  <button class="tag tag--link" type="button" data-filter="GraphQL">GraphQL</button>
+                  <button class="tag tag--link" type="button" data-filter="WebSocket">WebSocket</button>
+                </div>
+              </article>
+        </div>
+      </section>
+
+      <!--===== WINDOW: PROJECT 4 =====-->
+      <section class="win win--project" data-win="proj-3" hidden aria-label="Connect Kishan">
+        <header class="win__bar" data-drag>
+          <div class="win__lights">
+            <button class="light light--close" type="button" data-close aria-label="Close"></button>
+            <button class="light light--min" type="button" data-min aria-label="Minimise"></button>
+            <button class="light light--max" type="button" data-max aria-label="Maximise"></button>
+          </div>
+          <h2 class="win__title">Connect Kishan</h2>
+        </header>
+        <div class="win__body">
+          <article class="project project--sheet" data-stack="Node.js|React.js|PostgreSQL|TypeORM|REST API">
+                <div class="project__head">
+                  <h3 class="project__title">Connect Kishan</h3>
+                  <a href="https://connectkisan.com" target="_blank" rel="noopener" class="icon-btn icon-btn--sm" aria-label="Visit Connect Kishan"><i class="bx bx-link-external" aria-hidden="true"></i></a>
+                </div>
+                <p class="project__role">Full Stack Developer</p>
+                <p class="project__text">
+                  An all-in-one platform for farmers combining weather forecasting, farmer registration,
+                  subsidy applications, call-center support and training - also deployed for Benighat Rural
+                  Municipality and Phetamun Municipality.
+                </p>
+                <div class="tags">
+                  <button class="tag tag--link" type="button" data-filter="Node.js">Node.js</button>
+                  <button class="tag tag--link" type="button" data-filter="React.js">React.js</button>
+                  <button class="tag tag--link" type="button" data-filter="PostgreSQL">PostgreSQL</button>
+                  <button class="tag tag--link" type="button" data-filter="TypeORM">TypeORM</button>
+                  <button class="tag tag--link" type="button" data-filter="REST API">REST API</button>
+                </div>
+              </article>
+        </div>
+      </section>
+
+      <!--===== WINDOW: PROJECT 5 =====-->
+      <section class="win win--project" data-win="proj-4" hidden aria-label="Connect Kisan E-Commerce">
+        <header class="win__bar" data-drag>
+          <div class="win__lights">
+            <button class="light light--close" type="button" data-close aria-label="Close"></button>
+            <button class="light light--min" type="button" data-min aria-label="Minimise"></button>
+            <button class="light light--max" type="button" data-max aria-label="Maximise"></button>
+          </div>
+          <h2 class="win__title">Connect Kisan E-Commerce</h2>
+        </header>
+        <div class="win__body">
+          <article class="project project--sheet" data-stack="Next.js|Node.js|GraphQL|PostgreSQL|Tailwind CSS">
+                <div class="project__head">
+                  <h3 class="project__title">Connect Kisan E-Commerce</h3>
+                  <a href="https://bazar.connectkisan.com" target="_blank" rel="noopener" class="icon-btn icon-btn--sm" aria-label="Visit bazar.connectkisan.com"><i class="bx bx-link-external" aria-hidden="true"></i></a>
+                </div>
+                <p class="project__role">Team Lead / Full Stack Developer</p>
+                <p class="project__text">
+                  A multi-vendor e-commerce platform offering a seamless shopping experience with dynamic
+                  product listings, cart management and checkout.
+                </p>
+                <div class="tags">
+                  <button class="tag tag--link" type="button" data-filter="Next.js">Next.js</button>
+                  <button class="tag tag--link" type="button" data-filter="Node.js">Node.js</button>
+                  <button class="tag tag--link" type="button" data-filter="GraphQL">GraphQL</button>
+                  <button class="tag tag--link" type="button" data-filter="PostgreSQL">PostgreSQL</button>
+                  <button class="tag tag--link" type="button" data-filter="Tailwind CSS">Tailwind CSS</button>
+                </div>
+              </article>
+        </div>
+      </section>
+
+      <!--===== WINDOW: PROJECT 6 =====-->
+      <section class="win win--project" data-win="proj-5" hidden aria-label="Worksheet">
+        <header class="win__bar" data-drag>
+          <div class="win__lights">
+            <button class="light light--close" type="button" data-close aria-label="Close"></button>
+            <button class="light light--min" type="button" data-min aria-label="Minimise"></button>
+            <button class="light light--max" type="button" data-max aria-label="Maximise"></button>
+          </div>
+          <h2 class="win__title">Worksheet</h2>
+        </header>
+        <div class="win__body">
+          <article class="project project--sheet" data-stack="Node.js|React.js|PostgreSQL|TypeGraphQL|Apollo">
+                <div class="project__head">
+                  <h3 class="project__title">Worksheet</h3>
+                  <a href="https://worksheet.cliffbyte.com" target="_blank" rel="noopener" class="icon-btn icon-btn--sm" aria-label="Visit Worksheet"><i class="bx bx-link-external" aria-hidden="true"></i></a>
+                </div>
+                <p class="project__role">Team Lead, Full-Stack Developer</p>
+                <p class="project__text">
+                  A franchise-based platform for sharing worksheets, question papers and video resources
+                  with schools, alongside various training programs.
+                </p>
+                <div class="tags">
+                  <button class="tag tag--link" type="button" data-filter="Node.js">Node.js</button>
+                  <button class="tag tag--link" type="button" data-filter="React.js">React.js</button>
+                  <button class="tag tag--link" type="button" data-filter="PostgreSQL">PostgreSQL</button>
+                  <button class="tag tag--link" type="button" data-filter="TypeGraphQL">TypeGraphQL</button>
+                  <button class="tag tag--link" type="button" data-filter="Apollo">Apollo</button>
+                </div>
+              </article>
+        </div>
+      </section>
+
+<section class="win" data-win="certifications" hidden aria-label="Certifications">
+        <header class="win__bar" data-drag>
+          <div class="win__lights">
+            <button class="light light--close" type="button" data-close aria-label="Close"></button>
+            <button class="light light--min" type="button" data-min aria-label="Minimise"></button>
+            <button class="light light--max" type="button" data-max aria-label="Maximise"></button>
+          </div>
+          <h2 class="win__title">certifications.md</h2>
+        </header>
+        <div class="win__body">
+          <section id="certifications">
+            <h2 class="sr-only">Certifications</h2>
+            <ul class="certs">
+              <li class="cert">
+                <i class="bx bx-badge-check cert__icon" aria-hidden="true"></i>
+                <div>
+                  <h3 class="cert__title">AWS Academy Graduate - AWS Academy Machine Learning Foundations</h3>
+                  <p class="cert__meta">Amazon Web Services (AWS) · Issued Nov 2022</p>
+                  <a class="cert__verify" href="https://www.credly.com/badges/0d1025b4-b5e8-4d28-9568-baca110c6854/linked_in_profile" target="_blank" rel="noopener">Verify credential <i class="bx bx-up-arrow-alt" aria-hidden="true"></i></a>
+                </div>
+              </li>
+              <li class="cert">
+                <i class="bx bx-badge-check cert__icon" aria-hidden="true"></i>
+                <div>
+                  <h3 class="cert__title">AWS Academy Graduate - AWS Academy Cloud Foundations</h3>
+                  <p class="cert__meta">Amazon Web Services (AWS) · Issued Sep 2022</p>
+                  <a class="cert__verify" href="https://www.credly.com/badges/9673030c-6750-48a7-b5a1-cdb8980aa644/linked_in_profile" target="_blank" rel="noopener">Verify credential <i class="bx bx-up-arrow-alt" aria-hidden="true"></i></a>
+                </div>
+              </li>
+            </ul>
+          </section>
+        </div>
+      </section>
+
+<section class="win" data-win="contact" hidden aria-label="Contact">
+        <header class="win__bar" data-drag>
+          <div class="win__lights">
+            <button class="light light--close" type="button" data-close aria-label="Close"></button>
+            <button class="light light--min" type="button" data-min aria-label="Minimise"></button>
+            <button class="light light--max" type="button" data-max aria-label="Maximise"></button>
+          </div>
+          <h2 class="win__title">Socials.vcf</h2>
+        </header>
+        <div class="win__body">
+          <section id="contact">
+            <h2 class="sr-only">Get in touch</h2>
+            <div class="contact__grid">
+              <div>
+                <p class="contact__big">I'm always open to discussing new projects, opportunities or ideas.</p>
+                <div class="contact__email">
+                  <a href="mailto:mainalisujeet@gmail.com" class="contact__address">mainalisujeet@gmail.com</a>
+                  <button class="btn btn--ghost btn--sm" type="button" id="copy-email">
+                    <i class="bx bx-copy" aria-hidden="true"></i>
+                    <span>Copy email</span>
+                  </button>
+                </div>
+              </div>
+              <ul class="contact__links">
+                <li>
+                  <a href="https://www.linkedin.com/in/sujeetmainali/" target="_blank" rel="noopener" class="contact__link">
+                    <i class="bx bxl-linkedin" aria-hidden="true"></i>
+                    <span class="contact__name">LinkedIn</span>
+                    <span class="contact__value">/in/sujeetmainali</span>
+                    <i class="bx bx-up-arrow-alt contact__arrow" aria-hidden="true"></i>
+                  </a>
+                </li>
+                <li>
+                  <a href="https://github.com/sujeetmainali" target="_blank" rel="noopener" class="contact__link">
+                    <i class="bx bxl-github" aria-hidden="true"></i>
+                    <span class="contact__name">GitHub</span>
+                    <span class="contact__value">/sujeetmainali</span>
+                    <i class="bx bx-up-arrow-alt contact__arrow" aria-hidden="true"></i>
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </section>
+        </div>
+      </section>
+
+<section class="win" data-win="terminal" hidden aria-label="Terminal">
+        <header class="win__bar" data-drag>
+          <div class="win__lights">
+            <button class="light light--close" type="button" data-close aria-label="Close"></button>
+            <button class="light light--min" type="button" data-min aria-label="Minimise"></button>
+            <button class="light light--max" type="button" data-max aria-label="Maximise"></button>
+          </div>
+          <h2 class="win__title">Terminal</h2>
+        </header>
+        <div class="win__body">
+          <div class="term">
+            <div class="term__out" id="term-out" aria-live="polite"></div>
+            <form class="term__form" id="term-form" autocomplete="off">
+              <span class="term__prompt" aria-hidden="true">sujeet@portfolio ~ %</span>
+              <input class="term__input" id="term-input" type="text" aria-label="Command" spellcheck="false" />
+            </form>
+          </div>
+        </div>
+      </section>
+
+<section class="win win--house" data-win="house" hidden aria-label="Walkthrough">
+        <header class="win__bar" data-drag>
+          <div class="win__lights">
+            <button class="light light--close" type="button" data-close aria-label="Close"></button>
+            <button class="light light--min" type="button" data-min aria-label="Minimise"></button>
+            <button class="light light--max" type="button" data-max aria-label="Maximise"></button>
+          </div>
+          <h2 class="win__title">Walkthrough</h2>
+        </header>
+        <div class="win__body">
+          <section class="house" id="house" aria-labelledby="house-title">
+          <h2 class="sr-only" id="house-title">Walk through the house</h2>
+
+          <div class="house__bar">
+          <nav class="house__rooms" aria-label="Go to a room">
+          <button class="chip" type="button" data-room="home" style="--room: #c8875a"><span class="chip__dot" aria-hidden="true"></span>Entrance</button>
+          <button class="chip" type="button" data-room="about" style="--room: #7f9e96"><span class="chip__dot" aria-hidden="true"></span>Study</button>
+          <button class="chip" type="button" data-room="skills" style="--room: #d9a441"><span class="chip__dot" aria-hidden="true"></span>Living room</button>
+          <button class="chip" type="button" data-room="experience" style="--room: #6f86a6"><span class="chip__dot" aria-hidden="true"></span>Workshop</button>
+          <button class="chip" type="button" data-room="projects" style="--room: #c4655a"><span class="chip__dot" aria-hidden="true"></span>Gallery</button>
+          <button class="chip" type="button" data-room="certifications" style="--room: #8d9a5b"><span class="chip__dot" aria-hidden="true"></span>Library</button>
+          <button class="chip" type="button" data-room="contact" style="--room: #5fa3b8"><span class="chip__dot" aria-hidden="true"></span>Porch</button>
+          </nav>
+          <div class="house__actions">
+          <button class="chip" type="button" id="house-view" aria-pressed="false">Overview</button>
+          <button class="btn btn--ghost btn--sm" type="button" id="house-exit">Leave the house</button>
+          </div>
+          </div>
+
+          <div class="house-scene" id="house-scene">
           <div class="house-labels" id="house-labels"></div>
 
           <figure class="house-map">
-            <canvas id="house-minimap" width="420" height="300" aria-label="Floor plan. Tap a room to walk there."></canvas>
-            <figcaption>Floor plan</figcaption>
+          <canvas id="house-minimap" width="420" height="300" aria-label="Floor plan. Tap a room to walk there."></canvas>
+          <figcaption>Floor plan</figcaption>
           </figure>
 
           <aside class="house-room" aria-live="polite">
-            <p class="house-room__eyebrow">You are in</p>
-            <h3 class="house-room__name" id="house-room-name">Entrance hall</h3>
-            <p class="house-room__meta" id="house-room-meta"></p>
-            <ul class="house-room__list" id="house-room-list"></ul>
-            <button class="btn btn--sm house-room__next" type="button" id="house-next" hidden></button>
+          <p class="house-room__eyebrow">You are in</p>
+          <h3 class="house-room__name" id="house-room-name">Entrance hall</h3>
+          <p class="house-room__meta" id="house-room-meta"></p>
+          <ul class="house-room__list" id="house-room-list"></ul>
+          <button class="btn btn--sm house-room__next" type="button" id="house-next" hidden></button>
           </aside>
 
           <div class="house-joy" id="house-joy" aria-label="Move joystick" role="application">
-            <div class="house-joy__ring"></div>
-            <div class="house-joy__knob" id="house-joy-knob"></div>
+          <div class="house-joy__ring"></div>
+          <div class="house-joy__knob" id="house-joy-knob"></div>
           </div>
 
           <p class="house-hint" id="house-hint" hidden></p>
@@ -208,522 +909,61 @@
           <p class="house-msg" id="house-msg" hidden></p>
 
           <div class="house-guide" id="house-guide" hidden>
-            <p class="house-guide__title">Welcome to the house</p>
-            <p class="house-guide__short">Move with the joystick. Tap a piece to read it. Doorways lead to the next room.</p>
-            <ul class="house-guide__list">
-              <li><span>Walk</span> with the joystick, or WASD and the arrow keys</li>
-              <li><span>Look</span> around by dragging the scene</li>
-              <li><span>Open</span> a piece by clicking it, or press E when you are near it</li>
-              <li><span>Move on</span> through the glowing doorways, or pick a room above</li>
-            </ul>
-            <button class="btn btn--sm" type="button" id="house-guide-close">Got it</button>
+          <p class="house-guide__title">Welcome to the house</p>
+          <p class="house-guide__short">Move with the joystick. Tap a piece to read it. Doorways lead to the next room.</p>
+          <ul class="house-guide__list">
+          <li><span>Walk</span> with the joystick, or WASD and the arrow keys</li>
+          <li><span>Look</span> around by dragging the scene</li>
+          <li><span>Open</span> a piece by clicking it, or press E when you are near it</li>
+          <li><span>Move on</span> through the glowing doorways, or pick a room above</li>
+          </ul>
+          <button class="btn btn--sm" type="button" id="house-guide-close">Got it</button>
           </div>
 
           <aside class="house-panel" id="house-panel" aria-live="polite" hidden>
-            <header class="house-panel__head">
-              <div>
-                <p class="house-panel__room" id="house-panel-room"></p>
-                <h3 class="house-panel__title" id="house-panel-title"></h3>
-              </div>
-              <button class="icon-btn icon-btn--sm" type="button" id="house-panel-close" aria-label="Close this piece">
-                <i class="bx bx-x" aria-hidden="true"></i>
-              </button>
-            </header>
-            <div class="house-panel__body" id="house-panel-body"></div>
-            <footer class="house-panel__foot">
-              <button class="btn btn--ghost btn--sm" type="button" id="house-panel-prev">
-                <i class="bx bx-left-arrow-alt" aria-hidden="true"></i> Previous
-              </button>
-              <button class="btn btn--ghost btn--sm" type="button" id="house-panel-next">
-                Next <i class="bx bx-right-arrow-alt" aria-hidden="true"></i>
-              </button>
-            </footer>
+          <header class="house-panel__head">
+          <div>
+          <p class="house-panel__room" id="house-panel-room"></p>
+          <h3 class="house-panel__title" id="house-panel-title"></h3>
+          </div>
+          <button class="icon-btn icon-btn--sm" type="button" id="house-panel-close" aria-label="Close this piece">
+          <i class="bx bx-x" aria-hidden="true"></i>
+          </button>
+          </header>
+          <div class="house-panel__body" id="house-panel-body"></div>
+          <footer class="house-panel__foot">
+          <button class="btn btn--ghost btn--sm" type="button" id="house-panel-prev">
+          <i class="bx bx-left-arrow-alt" aria-hidden="true"></i> Previous
+          </button>
+          <button class="btn btn--ghost btn--sm" type="button" id="house-panel-next">
+          Next <i class="bx bx-right-arrow-alt" aria-hidden="true"></i>
+          </button>
+          </footer>
           </aside>
-        </div>
-      </section>
-      <!--===== HOME =====-->
-      <section class="hero container" id="home">
-        <div class="hero__text" data-reveal>
-          <p class="hero__status">
-            <span class="status-dot" aria-hidden="true"></span>
-            Available for new opportunities
-          </p>
-          <h1 class="hero__title">Sujeet Mainali</h1>
-          <p class="hero__role">
-            Full-Stack Developer &amp; Senior Software Engineer
-          </p>
-          <p class="hero__lede">
-            I design and build scalable web applications end-to-end, from clean,
-            responsive front-ends to robust APIs and cloud infrastructure, with a
-            focus on clean code and real product impact.
-          </p>
-
-          <div class="hero__actions">
-            <a href="#projects" class="btn">View projects</a>
-            <a href="#contact" class="btn btn--ghost">Get in touch</a>
           </div>
-
-          <div class="hero__social">
-            <button class="house-start-btn" type="button" id="house-start">
-              Walk through the house
-              <i class="bx bx-right-arrow-alt" aria-hidden="true"></i>
-            </button>
-            <a
-              href="https://github.com/sujeetmainali"
-              class="icon-btn"
-              target="_blank"
-              rel="noopener"
-              aria-label="GitHub"
-              ><i class="bx bxl-github" aria-hidden="true"></i
-            ></a>
-            <a
-              href="https://www.linkedin.com/in/sujeetmainali/"
-              class="icon-btn"
-              target="_blank"
-              rel="noopener"
-              aria-label="LinkedIn"
-              ><i class="bx bxl-linkedin" aria-hidden="true"></i
-            ></a>
-            <a
-              href="mailto:mainalisujeet@gmail.com"
-              class="icon-btn"
-              aria-label="Email"
-              ><i class="bx bx-envelope" aria-hidden="true"></i
-            ></a>
-          </div>
-        </div>
-
-        <figure class="hero__portrait" data-reveal data-reveal-delay="1">
-          <img
-            src="./images/profilepic.jpeg"
-            alt="Sujeet Mainali, Full-Stack Developer and Senior Software Engineer"
-            width="600"
-            height="600"
-          />
-          <figcaption class="hero__now">
-            <span class="hero__now-label">Now</span>
-            <span>Senior Software Engineer at Cyberensic.ai</span>
-          </figcaption>
-        </figure>
-      </section>
-
-      <!--===== ABOUT =====-->
-      <section class="section container" id="about" aria-labelledby="about-title">
-        <header class="section-head" data-reveal>
-          <span class="section-index">01</span>
-          <h2 class="section-title" id="about-title">About me</h2>
-          <p class="section-sub">Who I am</p>
-        </header>
-
-        <div class="about">
-          <div class="about__body" data-reveal>
-            <h3 class="about__lead">
-              Full-Stack Developer with 4+ years of experience
-            </h3>
-            <p>
-              I have expertise across the full SDLC, from architecture to
-              deployment. I'm skilled in JavaScript, TypeScript, clean coding
-              practices, and design patterns, and I enjoy solving hard problems
-              as part of a collaborative team. I'm dedicated to delivering
-              innovative solutions and driving project success - and I genuinely
-              enjoy mentoring junior developers along the way.
-            </p>
-            <p>
-              I hold a BSc (Hons) in Computing from Islington College, in
-              affiliation with London Metropolitan University.
-            </p>
-          </div>
-
-          <dl class="stats" data-reveal data-reveal-delay="1">
-            <div class="stat">
-              <dt>Years experience</dt>
-              <dd><span data-count="4" data-suffix="+">4+</span></dd>
-            </div>
-            <div class="stat">
-              <dt>Major projects</dt>
-              <dd><span data-count="6" data-suffix="+">6+</span></dd>
-            </div>
-            <div class="stat">
-              <dt>Companies</dt>
-              <dd><span data-count="3">3</span></dd>
-            </div>
-          </dl>
-        </div>
-      </section>
-
-      <!--===== SKILLS =====-->
-      <section class="section container" id="skills" aria-labelledby="skills-title">
-        <header class="section-head" data-reveal>
-          <span class="section-index">02</span>
-          <h2 class="section-title" id="skills-title">Skills</h2>
-          <p class="section-sub">What I work with</p>
-        </header>
-
-        <div class="skills">
-          <div class="skill-group" data-reveal>
-            <h3 class="skill-group__title"><i class="bx bx-code-alt" aria-hidden="true"></i> Languages</h3>
-            <div class="tags">
-              <span class="tag skill-tag">JavaScript</span>
-              <span class="tag skill-tag">TypeScript</span>
-              <span class="tag skill-tag">C#</span>
-              <span class="tag skill-tag">Python</span>
-              <span class="tag skill-tag">HTML5</span>
-              <span class="tag skill-tag">CSS3</span>
-              <span class="tag skill-tag">SQL</span>
-            </div>
-          </div>
-
-          <div class="skill-group" data-reveal data-reveal-delay="1">
-            <h3 class="skill-group__title"><i class="bx bx-layer" aria-hidden="true"></i> Frameworks &amp; libraries</h3>
-            <div class="tags">
-              <span class="tag skill-tag">React.js</span>
-              <span class="tag skill-tag">Next.js</span>
-              <span class="tag skill-tag">Node.js</span>
-              <span class="tag skill-tag">Nest.js</span>
-              <span class="tag skill-tag">Express.js</span>
-              <span class="tag skill-tag">FastAPI</span>
-              <span class="tag skill-tag">GraphQL</span>
-              <span class="tag skill-tag">Apollo</span>
-              <span class="tag skill-tag">Redux Toolkit</span>
-              <span class="tag skill-tag">React Query</span>
-              <span class="tag skill-tag">Tailwind CSS</span>
-              <span class="tag skill-tag">Shadcn UI</span>
-              <span class="tag skill-tag">Chakra UI</span>
-              <span class="tag skill-tag">Material UI</span>
-              <span class="tag skill-tag">Vitest</span>
-            </div>
-          </div>
-
-          <div class="skill-group" data-reveal>
-            <h3 class="skill-group__title"><i class="bx bx-data" aria-hidden="true"></i> Databases</h3>
-            <div class="tags">
-              <span class="tag skill-tag">PostgreSQL</span>
-              <span class="tag skill-tag">MySQL</span>
-              <span class="tag skill-tag">MongoDB</span>
-              <span class="tag skill-tag">TypeORM</span>
-              <span class="tag skill-tag">Prisma</span>
-            </div>
-          </div>
-
-          <div class="skill-group" data-reveal data-reveal-delay="1">
-            <h3 class="skill-group__title"><i class="bx bxs-cloud" aria-hidden="true"></i> Cloud &amp; DevOps</h3>
-            <div class="tags">
-              <span class="tag skill-tag">AWS</span>
-              <span class="tag skill-tag">Docker</span>
-              <span class="tag skill-tag">Linux</span>
-              <span class="tag skill-tag">Git</span>
-              <span class="tag skill-tag">GitHub Actions</span>
-              <span class="tag skill-tag">Nginx</span>
-            </div>
-          </div>
-        </div>
-        <p class="hint" data-reveal>
-          Skills used in a project link to that project in the list below.
-        </p>
-      </section>
-
-      <!--===== EXPERIENCE =====-->
-      <section class="section container" id="experience" aria-labelledby="experience-title">
-        <header class="section-head" data-reveal>
-          <span class="section-index">03</span>
-          <h2 class="section-title" id="experience-title">Experience</h2>
-          <p class="section-sub">Where I've worked</p>
-        </header>
-
-        <div class="timeline">
-          <details class="job" data-reveal open>
-            <summary class="job__summary">
-              <span class="job__when">Jul 2026 – Present</span>
-              <span class="job__main">
-                <span class="job__role">Senior Software Engineer</span>
-                <span class="job__company">Cyberensic.ai</span>
-              </span>
-              <i class="bx bx-chevron-down job__chev" aria-hidden="true"></i>
-            </summary>
-            <ul class="job__list">
-              <li>Design and architect end-to-end features technically.</li>
-              <li>Drive product optimization and enhancement.</li>
-            </ul>
-          </details>
-
-          <details class="job" data-reveal data-reveal-delay="1" open>
-            <summary class="job__summary">
-              <span class="job__when">Oct 2024 – Jun 2026</span>
-              <span class="job__main">
-                <span class="job__role">Full Stack Engineer</span>
-                <span class="job__company">Jams Assist, Inc. · Manteca, CA</span>
-              </span>
-              <i class="bx bx-chevron-down job__chev" aria-hidden="true"></i>
-            </summary>
-            <ul class="job__list">
-              <li>
-                Built responsive, user-friendly interfaces with Next.js, TSX,
-                Shadcn UI and Tailwind CSS.
-              </li>
-              <li>
-                Developed scalable server-side logic with FastAPI, Docker,
-                LangGraph.
-              </li>
-              <li>
-                Modeled NoSQL database schemas for high-throughput record
-                storage.
-              </li>
-            </ul>
-          </details>
-
-          <details class="job" data-reveal>
-            <summary class="job__summary">
-              <span class="job__when">Jun 2022 – Oct 2024</span>
-              <span class="job__main">
-                <span class="job__role">Full Stack Engineer</span>
-                <span class="job__company">Information Care Pvt. Ltd · Kathmandu</span>
-              </span>
-              <i class="bx bx-chevron-down job__chev" aria-hidden="true"></i>
-            </summary>
-            <ul class="job__list">
-              <li>
-                Implemented Atomic Design and clean-code principles across React.js
-                interfaces.
-              </li>
-              <li>Built scalable back-end services with Node.js and Express.js.</li>
-              <li>
-                Modeled schemas and relationships in MySQL/PostgreSQL using
-                TypeORM.
-              </li>
-              <li>
-                Designed RESTful and GraphQL APIs connecting front-end and back-end
-                systems.
-              </li>
-              <li>
-                Mentored interns and junior developers through code reviews and
-                guidance.
-              </li>
-            </ul>
-          </details>
-        </div>
-      </section>
-
-      <!--===== PROJECTS =====-->
-      <section class="section container" id="projects" aria-labelledby="projects-title">
-        <header class="section-head" data-reveal>
-          <span class="section-index">04</span>
-          <h2 class="section-title" id="projects-title">Projects</h2>
-          <p class="section-sub">Things I've built</p>
-        </header>
-
-        <div class="filter" data-reveal>
-          <div class="filter__chips" id="filter-chips" role="group" aria-label="Filter projects by technology"></div>
-          <p class="filter__count" id="filter-count" aria-live="polite"></p>
-        </div>
-
-        <div class="projects" id="project-list">
-          <article class="project" data-stack="Node.js|PostgreSQL|Prisma|AWS" data-reveal>
-            <div class="project__head">
-              <h3 class="project__title">CISO Adapt</h3>
-              <a href="https://cisoadapt.ai/" target="_blank" rel="noopener" class="icon-btn icon-btn--sm" aria-label="Visit cisoadapt.ai"><i class="bx bx-link-external" aria-hidden="true"></i></a>
-            </div>
-            <p class="project__role">Senior Software Engineer · Cyberensic.ai</p>
-            <p class="project__text">
-              An AI-powered Governance, Risk, and Compliance (GRC) platform that
-              automates security operations and compliance monitoring across
-              frameworks like ISO 27001, Essential Eight, NIST CSF and PCI DSS -
-              with policy automation, AI-driven compliance assessments,
-              third-party risk evaluation and incident management for
-              organizations from SMBs to enterprises.
-            </p>
-            <div class="tags">
-              <button class="tag tag--link" type="button" data-filter="Node.js">Node.js</button>
-              <button class="tag tag--link" type="button" data-filter="PostgreSQL">PostgreSQL</button>
-              <button class="tag tag--link" type="button" data-filter="Prisma">Prisma</button>
-              <button class="tag tag--link" type="button" data-filter="AWS">AWS</button>
-            </div>
-          </article>
-
-          <article class="project" data-stack="Next.js|FastAPI|LangGraph|Tailwind CSS" data-reveal data-reveal-delay="1">
-            <div class="project__head">
-              <h3 class="project__title">Jobsflow.ai</h3>
-              <a href="https://jobsflow.ai/" target="_blank" rel="noopener" class="icon-btn icon-btn--sm" aria-label="Visit jobsflow.ai"><i class="bx bx-link-external" aria-hidden="true"></i></a>
-            </div>
-            <p class="project__role">Senior Full Stack Engineer · Jams Assist, Inc.</p>
-            <p class="project__text">
-              AI for your job workflow - a platform bringing AI-driven automation
-              to job-related workflows for both recruiter and candidate
-              experiences, including resume parsing, resume scoring, AI interview,
-              Interview scoring and suggestions, job matching, interview scheduling
-              and candidate engagement.
-            </p>
-            <div class="tags">
-              <button class="tag tag--link" type="button" data-filter="Next.js">Next.js</button>
-              <button class="tag tag--link" type="button" data-filter="FastAPI">FastAPI</button>
-              <button class="tag tag--link" type="button" data-filter="LangGraph">LangGraph</button>
-              <button class="tag tag--link" type="button" data-filter="Tailwind CSS">Tailwind CSS</button>
-            </div>
-          </article>
-
-          <article class="project" data-stack="Node.js|React.js|PostgreSQL|TypeORM|GraphQL|WebSocket" data-reveal>
-            <div class="project__head">
-              <h3 class="project__title">Service Delivery Application</h3>
-              <a href="https://mypalika.com/" target="_blank" rel="noopener" class="icon-btn icon-btn--sm" aria-label="Visit mypalika.com"><i class="bx bx-link-external" aria-hidden="true"></i></a>
-            </div>
-            <p class="project__role">Full Stack Developer</p>
-            <p class="project__text">
-              An all-in-one platform digitalizing municipality operations -
-              appointments, business registration, citizen charters, profiling and
-              verbal-dispute (Ijalas) handling, built as microservices acting as
-              one system.
-            </p>
-            <div class="tags">
-              <button class="tag tag--link" type="button" data-filter="Node.js">Node.js</button>
-              <button class="tag tag--link" type="button" data-filter="React.js">React.js</button>
-              <button class="tag tag--link" type="button" data-filter="PostgreSQL">PostgreSQL</button>
-              <button class="tag tag--link" type="button" data-filter="TypeORM">TypeORM</button>
-              <button class="tag tag--link" type="button" data-filter="GraphQL">GraphQL</button>
-              <button class="tag tag--link" type="button" data-filter="WebSocket">WebSocket</button>
-            </div>
-          </article>
-
-          <article class="project" data-stack="Node.js|React.js|PostgreSQL|TypeORM|REST API" data-reveal data-reveal-delay="1">
-            <div class="project__head">
-              <h3 class="project__title">Connect Kishan</h3>
-              <a href="https://connectkisan.com" target="_blank" rel="noopener" class="icon-btn icon-btn--sm" aria-label="Visit Connect Kishan"><i class="bx bx-link-external" aria-hidden="true"></i></a>
-            </div>
-            <p class="project__role">Full Stack Developer</p>
-            <p class="project__text">
-              An all-in-one platform for farmers combining weather forecasting,
-              farmer registration, subsidy applications, call-center support and
-              training - also deployed for Benighat Rural Municipality and Phetamun
-              Municipality.
-            </p>
-            <div class="tags">
-              <button class="tag tag--link" type="button" data-filter="Node.js">Node.js</button>
-              <button class="tag tag--link" type="button" data-filter="React.js">React.js</button>
-              <button class="tag tag--link" type="button" data-filter="PostgreSQL">PostgreSQL</button>
-              <button class="tag tag--link" type="button" data-filter="TypeORM">TypeORM</button>
-              <button class="tag tag--link" type="button" data-filter="REST API">REST API</button>
-            </div>
-          </article>
-
-          <article class="project" data-stack="Next.js|Node.js|GraphQL|PostgreSQL|Tailwind CSS" data-reveal>
-            <div class="project__head">
-              <h3 class="project__title">Connect Kisan E-Commerce</h3>
-              <a href="https://bazar.connectkisan.com" target="_blank" rel="noopener" class="icon-btn icon-btn--sm" aria-label="Visit bazar.connectkisan.com"><i class="bx bx-link-external" aria-hidden="true"></i></a>
-            </div>
-            <p class="project__role">Team Lead / Full Stack Developer</p>
-            <p class="project__text">
-              A multi-vendor e-commerce platform offering a seamless shopping
-              experience with dynamic product listings, cart management and
-              checkout.
-            </p>
-            <div class="tags">
-              <button class="tag tag--link" type="button" data-filter="Next.js">Next.js</button>
-              <button class="tag tag--link" type="button" data-filter="Node.js">Node.js</button>
-              <button class="tag tag--link" type="button" data-filter="GraphQL">GraphQL</button>
-              <button class="tag tag--link" type="button" data-filter="PostgreSQL">PostgreSQL</button>
-              <button class="tag tag--link" type="button" data-filter="Tailwind CSS">Tailwind CSS</button>
-            </div>
-          </article>
-
-          <article class="project" data-stack="Node.js|React.js|PostgreSQL|TypeGraphQL|Apollo" data-reveal data-reveal-delay="1">
-            <div class="project__head">
-              <h3 class="project__title">Worksheet</h3>
-              <a href="https://worksheet.cliffbyte.com" target="_blank" rel="noopener" class="icon-btn icon-btn--sm" aria-label="Visit Worksheet"><i class="bx bx-link-external" aria-hidden="true"></i></a>
-            </div>
-            <p class="project__role">Team Lead, Full-Stack Developer</p>
-            <p class="project__text">
-              A franchise-based platform for sharing worksheets, question papers and
-              video resources with schools, alongside various training programs.
-            </p>
-            <div class="tags">
-              <button class="tag tag--link" type="button" data-filter="Node.js">Node.js</button>
-              <button class="tag tag--link" type="button" data-filter="React.js">React.js</button>
-              <button class="tag tag--link" type="button" data-filter="PostgreSQL">PostgreSQL</button>
-              <button class="tag tag--link" type="button" data-filter="TypeGraphQL">TypeGraphQL</button>
-              <button class="tag tag--link" type="button" data-filter="Apollo">Apollo</button>
-            </div>
-          </article>
-        </div>
-      </section>
-
-      <!--===== CERTIFICATIONS =====-->
-      <section class="section container" id="certifications" aria-labelledby="certs-title">
-        <header class="section-head" data-reveal>
-          <span class="section-index">05</span>
-          <h2 class="section-title" id="certs-title">Certifications</h2>
-          <p class="section-sub">Continued learning</p>
-        </header>
-
-        <ul class="certs">
-          <li class="cert" data-reveal>
-            <i class="bx bx-badge-check cert__icon" aria-hidden="true"></i>
-            <div>
-              <h3 class="cert__title">AWS Academy Graduate - AWS Academy Machine Learning Foundations</h3>
-              <p class="cert__meta">Amazon Web Services (AWS) · Issued Nov 2022</p>
-              <a href="https://www.credly.com/badges/0d1025b4-b5e8-4d28-9568-baca110c6854/linked_in_profile" target="_blank" rel="noopener" class="cert__verify">Verify credential<i class="bx bx-up-arrow-alt" aria-hidden="true"></i></a>
-            </div>
-          </li>
-          <li class="cert" data-reveal data-reveal-delay="1">
-            <i class="bx bx-badge-check cert__icon" aria-hidden="true"></i>
-            <div>
-              <h3 class="cert__title">AWS Academy Graduate - AWS Academy Cloud Foundations</h3>
-              <p class="cert__meta">Amazon Web Services (AWS) · Issued Sep 2022</p>
-              <a href="https://www.credly.com/badges/9673030c-6750-48a7-b5a1-cdb8980aa644/linked_in_profile" target="_blank" rel="noopener" class="cert__verify">Verify credential<i class="bx bx-up-arrow-alt" aria-hidden="true"></i></a>
-            </div>
-          </li>
-        </ul>
-      </section>
-
-      <!--===== CONTACT =====-->
-      <section class="section container contact" id="contact" aria-labelledby="contact-title">
-        <header class="section-head" data-reveal>
-          <span class="section-index">06</span>
-          <h2 class="section-title" id="contact-title">Get in touch</h2>
-          <p class="section-sub">Let's work together</p>
-        </header>
-
-        <div class="contact__grid">
-          <div class="contact__lead" data-reveal>
-            <p class="contact__big">Open to new projects, opportunities and ideas.</p>
-            <div class="contact__email">
-              <a href="mailto:mainalisujeet@gmail.com" class="contact__address">mainalisujeet@gmail.com</a>
-              <button class="btn btn--ghost btn--sm" type="button" id="copy-email">
-                <i class="bx bx-copy" aria-hidden="true"></i>
-                <span>Copy email</span>
-              </button>
-            </div>
-          </div>
-
-          <ul class="contact__links" data-reveal data-reveal-delay="1">
-            <li>
-              <a href="https://www.linkedin.com/in/sujeetmainali/" target="_blank" rel="noopener" class="contact__link">
-                <i class="bx bxl-linkedin" aria-hidden="true"></i>
-                <span class="contact__name">LinkedIn</span>
-                <span class="contact__value">/in/sujeetmainali</span>
-                <i class="bx bx-up-arrow-alt contact__arrow" aria-hidden="true"></i>
-              </a>
-            </li>
-            <li>
-              <a href="https://github.com/sujeetmainali" target="_blank" rel="noopener" class="contact__link">
-                <i class="bx bxl-github" aria-hidden="true"></i>
-                <span class="contact__name">GitHub</span>
-                <span class="contact__value">/sujeetmainali</span>
-                <i class="bx bx-up-arrow-alt contact__arrow" aria-hidden="true"></i>
-              </a>
-            </li>
-          </ul>
+          </section>
         </div>
       </section>
     </main>
 
-    <!--===== FOOTER =====-->
-    <footer class="footer container">
-      <p class="footer__name">Sujeet Mainali</p>
-      <p class="footer__meta">
-        Senior Software Engineer · &#169; <span id="year"></span>
-      </p>
-    </footer>
+    <!--===== DOCK =====-->
+    <nav class="dock" aria-label="Dock">
+      <button class="dock__item" type="button" data-open="projects"><span class="dock__tile dock__tile--finder"><i class="bx bxs-folder" aria-hidden="true"></i></span><span class="dock__label">Projects</span><span class="dock__run"></span></button>
+      <button class="dock__item" type="button" data-open="terminal"><span class="dock__tile dock__tile--terminal"><i class="bx bx-terminal" aria-hidden="true"></i></span><span class="dock__label">Terminal</span><span class="dock__run"></span></button>
+      <button class="dock__item" type="button" data-open="about"><span class="dock__tile dock__tile--photos"><i class="bx bx-user" aria-hidden="true"></i></span><span class="dock__label">About Me</span><span class="dock__run"></span></button>
+      <button class="dock__item" type="button" data-open="experience"><span class="dock__tile dock__tile--music"><i class="bx bxs-briefcase" aria-hidden="true"></i></span><span class="dock__label">Experience</span><span class="dock__run"></span></button>
+      <button class="dock__item" type="button" data-open="skills"><span class="dock__tile dock__tile--xcode"><i class="bx bx-code-alt" aria-hidden="true"></i></span><span class="dock__label">Skills</span><span class="dock__run"></span></button>
+      <button class="dock__item" type="button" data-open="certifications"><span class="dock__tile dock__tile--calendar"><i class="bx bxs-award" aria-hidden="true"></i></span><span class="dock__label">Certifications</span><span class="dock__run"></span></button>
+      <button class="dock__item" type="button" data-open="contact"><span class="dock__tile dock__tile--mail"><i class="bx bxs-envelope" aria-hidden="true"></i></span><span class="dock__label">Contact</span><span class="dock__run"></span></button>
+      <span class="dock__sep" aria-hidden="true"></span>
+      <button class="dock__item" type="button" data-open="welcome"><span class="dock__tile dock__tile--doc" aria-hidden="true"><svg viewBox="0 0 48 60"><use href="#ic-doc"/></svg><span class="dock__doc-badge">README</span></span><span class="dock__label">Read Me</span><span class="dock__run"></span></button>
+      <button class="dock__item" type="button" data-close-all><span class="dock__tile dock__tile--trash"><i class="bx bx-trash" aria-hidden="true"></i></span><span class="dock__label">Close all windows</span><span class="dock__run"></span></button>
+    </nav>
 
     <!--===== MAIN JS =====-->
     <script type="module" src="./js/house.js"></script>
     <script src="./js/main.js"></script>
+    <script src="./js/control.js"></script>
+    <script src="./js/terminal.js"></script>
   </body>
 </html>

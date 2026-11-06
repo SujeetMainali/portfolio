@@ -76,12 +76,12 @@ const PIECES = [
   { id: 'job0', room: 'experience', sel: '#experience .job', idx: 0, titleSel: '.job__role', kind: 'frame', x: 3.0, y: 1.5, z: -4.42, rot: 0, w: 0.7, h: 0.5 },
   { id: 'job1', room: 'experience', sel: '#experience .job', idx: 1, titleSel: '.job__role', kind: 'frame', x: 4.0, y: 1.5, z: -4.42, rot: 0, w: 0.7, h: 0.5 },
   { id: 'job2', room: 'experience', sel: '#experience .job', idx: 2, titleSel: '.job__role', kind: 'frame', x: 5.0, y: 1.5, z: -4.42, rot: 0, w: 0.7, h: 0.5 },
-  { id: 'proj0', room: 'projects', sel: '#projects .project', idx: 0, titleSel: '.project__title', kind: 'frame', x: -5.86, y: 1.2, z: -0.9, rot: Math.PI / 2, w: 0.7, h: 0.5 },
-  { id: 'proj1', room: 'projects', sel: '#projects .project', idx: 1, titleSel: '.project__title', kind: 'frame', x: -5.86, y: 1.2, z: 0, rot: Math.PI / 2, w: 0.7, h: 0.5 },
-  { id: 'proj2', room: 'projects', sel: '#projects .project', idx: 2, titleSel: '.project__title', kind: 'frame', x: -5.86, y: 1.2, z: 0.9, rot: Math.PI / 2, w: 0.7, h: 0.5 },
-  { id: 'proj3', room: 'projects', sel: '#projects .project', idx: 3, titleSel: '.project__title', kind: 'frame', x: -5.86, y: 1.9, z: -0.9, rot: Math.PI / 2, w: 0.7, h: 0.5 },
-  { id: 'proj4', room: 'projects', sel: '#projects .project', idx: 4, titleSel: '.project__title', kind: 'frame', x: -5.86, y: 1.9, z: 0, rot: Math.PI / 2, w: 0.7, h: 0.5 },
-  { id: 'proj5', room: 'projects', sel: '#projects .project', idx: 5, titleSel: '.project__title', kind: 'frame', x: -5.86, y: 1.9, z: 0.9, rot: Math.PI / 2, w: 0.7, h: 0.5 },
+  { id: 'proj0', room: 'projects', sel: '.project', idx: 0, titleSel: '.project__title', kind: 'frame', x: -5.86, y: 1.2, z: -0.9, rot: Math.PI / 2, w: 0.7, h: 0.5 },
+  { id: 'proj1', room: 'projects', sel: '.project', idx: 1, titleSel: '.project__title', kind: 'frame', x: -5.86, y: 1.2, z: 0, rot: Math.PI / 2, w: 0.7, h: 0.5 },
+  { id: 'proj2', room: 'projects', sel: '.project', idx: 2, titleSel: '.project__title', kind: 'frame', x: -5.86, y: 1.2, z: 0.9, rot: Math.PI / 2, w: 0.7, h: 0.5 },
+  { id: 'proj3', room: 'projects', sel: '.project', idx: 3, titleSel: '.project__title', kind: 'frame', x: -5.86, y: 1.9, z: -0.9, rot: Math.PI / 2, w: 0.7, h: 0.5 },
+  { id: 'proj4', room: 'projects', sel: '.project', idx: 4, titleSel: '.project__title', kind: 'frame', x: -5.86, y: 1.9, z: 0, rot: Math.PI / 2, w: 0.7, h: 0.5 },
+  { id: 'proj5', room: 'projects', sel: '.project', idx: 5, titleSel: '.project__title', kind: 'frame', x: -5.86, y: 1.9, z: 0.9, rot: Math.PI / 2, w: 0.7, h: 0.5 },
   { id: 'cert0', room: 'certifications', sel: '#certifications .cert', idx: 0, titleSel: '.cert__title', kind: 'frame', x: 1.87, y: 1.4, z: -0.9, rot: -Math.PI / 2, w: 0.7, h: 0.5 },
   { id: 'cert1', room: 'certifications', sel: '#certifications .cert', idx: 1, titleSel: '.cert__title', kind: 'frame', x: 1.87, y: 1.4, z: 0.9, rot: -Math.PI / 2, w: 0.7, h: 0.5 },
   { id: 'contact', room: 'contact', sel: '#contact .contact__grid', title: 'Get in touch', kind: 'plinth', x: 5.4, z: 0.9, rot: Math.PI },
@@ -90,7 +90,6 @@ const PIECES = [
 /*===== PAGE REFERENCES =====*/
 const $house = $('#house')
 const $body = document.body
-const $toggle = $('#house-toggle')
 const $chips = $$('.house__rooms .chip')
 const $view = $('#house-view')
 const $hint = $('#house-hint')
@@ -361,12 +360,6 @@ $joy.addEventListener('pointerup', endJoy)
 $joy.addEventListener('pointercancel', endJoy)
 
 /*===== ENTER AND LEAVE =====*/
-function paintToggle() {
-  const label = inHouse ? 'Leave the house' : 'Walk through the house'
-  $('i', $toggle).className = inHouse ? 'bx bx-log-out' : 'bx bx-home-alt'
-  $toggle.setAttribute('aria-label', label)
-  $toggle.title = label
-}
 
 function loadScene() {
   if (!scenePromise) scenePromise = buildScene().then((s) => (scene = s))
@@ -380,15 +373,13 @@ async function enterHouse(startId = 'home') {
   if (!s) {
     $house.hidden = true
     console.warn('The 3D house needs WebGL and an internet connection. Showing the sections instead.')
-    document.getElementById('about').scrollIntoView({ behavior: 'auto', block: 'start' })
+    document.dispatchEvent(new CustomEvent('desktop:request', { detail: 'about' }))
     return
   }
   inHouse = true
   $body.classList.add('is-house')
-  paintToggle()
   showMsg('')
   s.start(startId)
-  $house.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' })
   let seen = false
   try {
     seen = localStorage.getItem(GUIDE_KEY) === '1'
@@ -403,8 +394,6 @@ function exitHouse() {
   closePanel()
   $toast.hidden = true
   scene && scene.stop()
-  paintToggle()
-  window.scrollTo({ top: 0, behavior: 'auto' })
 }
 
 window.houseWalk = {
@@ -420,9 +409,14 @@ window.houseWalk = {
 }
 
 /*===== EVENTS =====*/
-$toggle.addEventListener('click', () => (inHouse ? exitHouse() : enterHouse()))
-$('#house-start').addEventListener('click', () => enterHouse('home'))
-$('#house-exit').addEventListener('click', exitHouse)
+$('#house-exit').addEventListener('click', () => document.dispatchEvent(new CustomEvent('desktop:request-close', { detail: 'house' })))
+// The house opens and closes with its window
+document.addEventListener('desktop:open', (e) => {
+  if (e.detail === 'house') enterHouse('home')
+})
+document.addEventListener('desktop:close', (e) => {
+  if (e.detail === 'house' && inHouse) exitHouse()
+})
 $('#house-panel-close').addEventListener('click', closePanel)
 $panelPrev.addEventListener('click', () => stepPiece(-1))
 $panelNext.addEventListener('click', () => stepPiece(1))
@@ -1278,4 +1272,3 @@ async function buildScene() {
 }
 
 setRoomNow('home')
-paintToggle()
