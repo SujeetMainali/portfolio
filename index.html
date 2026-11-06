@@ -53,11 +53,20 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@500;600;700;800&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600&family=Newsreader:opsz,wght@6..72,400;6..72,500&display=swap"
       rel="stylesheet"
     />
 
     <link rel="stylesheet" href="./css/style.css" />
+
+    <!-- =====THREE.JS (3D house walk-through) ===== -->
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.module.min.js"
+        }
+      }
+    </script>
 
     <!-- =====BOX ICONS===== -->
     <link
@@ -93,152 +102,203 @@
 
     <script>
       (function () {
-        var palette = localStorage.getItem("palette") || "mono-emerald";
-        var theme = localStorage.getItem("theme");
+        document.documentElement.classList.add("js");
+        var theme = null;
+        try {
+          theme = localStorage.getItem("theme");
+        } catch (e) {}
         if (!theme) {
           theme = window.matchMedia("(prefers-color-scheme: dark)").matches
             ? "dark"
             : "light";
         }
-        document.documentElement.setAttribute("data-palette", palette);
         document.documentElement.setAttribute("data-theme", theme);
       })();
     </script>
   </head>
 
   <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+
     <!--===== HEADER =====-->
-    <header class="l-header" id="header">
-      <nav class="nav bd-grid">
+    <header class="header" id="header">
+      <nav class="nav container" aria-label="Main">
         <a href="#home" class="nav__logo">Sujeet<span>.</span></a>
 
         <div class="nav__menu" id="nav-menu">
           <ul class="nav__list">
-            <li class="nav__item">
-              <a href="#home" class="nav__link active">Home</a>
-            </li>
-            <li class="nav__item">
-              <a href="#about" class="nav__link">About</a>
-            </li>
-            <li class="nav__item">
-              <a href="#skills" class="nav__link">Skills</a>
-            </li>
-            <li class="nav__item">
-              <a href="#experience" class="nav__link">Experience</a>
-            </li>
-            <li class="nav__item">
-              <a href="#projects" class="nav__link">Projects</a>
-            </li>
-            <li class="nav__item">
-              <a href="#contact" class="nav__link">Contact</a>
-            </li>
+            <li><a href="#about" class="nav__link">About</a></li>
+            <li><a href="#skills" class="nav__link">Skills</a></li>
+            <li><a href="#experience" class="nav__link">Experience</a></li>
+            <li><a href="#projects" class="nav__link">Projects</a></li>
+            <li><a href="#contact" class="nav__link">Contact</a></li>
           </ul>
         </div>
 
         <div class="nav__actions">
-          <!-- <select
-            class="palette-select"
-            id="palette-select"
-            aria-label="Color palette"
-          >
-            <option value="slate-amber">Amber</option>
-            <option value="mono-emerald">Emerald</option>
-            <option value="navy-cyan">Cyan</option>
-            <option value="warm-terracotta">Terracotta</option>
-          </select> -->
+          <button class="icon-btn" type="button" id="house-toggle">
+            <i class="bx bx-home-alt" aria-hidden="true"></i>
+          </button>
           <button
-            class="theme-toggle"
+            class="icon-btn"
             id="theme-toggle"
             aria-label="Toggle dark mode"
             type="button"
           >
-            <i class="bx bx-moon"></i>
+            <i class="bx bx-moon" aria-hidden="true"></i>
           </button>
-          <div class="nav__toggle" id="nav-toggle">
-            <i class="bx bx-menu"></i>
-          </div>
+          <button
+            class="icon-btn nav__toggle"
+            id="nav-toggle"
+            type="button"
+            aria-label="Open menu"
+            aria-expanded="false"
+            aria-controls="nav-menu"
+          >
+            <i class="bx bx-menu" aria-hidden="true"></i>
+          </button>
         </div>
       </nav>
     </header>
 
-    <main class="l-main">
-      <!--===== HOME =====-->
-      <section class="home bd-grid" id="home">
-        <div class="home__data" data-reveal>
-          <span class="home__badge">Available for new opportunities</span>
-          <h1 class="home__title">
-            Hi, I'm <span class="home__title-color">Sujeet Mainali</span>
-          </h1>
-          <h2 class="home__subtitle">
-            Full-Stack Developer &amp; Senior Software Engineer
-          </h2>
-          <p class="home__text">
-            I design and build scalable web applications end-to-end - from
-            clean, responsive front-ends to robust APIs and cloud infrastructure
-            - with a focus on clean code and real product impact.
-          </p>
-
-          <div class="home__buttons">
-            <a href="#projects" class="button">View Projects</a>
-            <a href="#contact" class="button button--ghost">Get In Touch</a>
+    <main class="main" id="main">
+      <!--===== HOUSE PLAN (walk-through mode) =====-->
+      <section class="house container" id="house" aria-labelledby="house-title" hidden>
+        <div class="house__head">
+          <div>
+            <h2 class="house__title" id="house-title">Walk through the house</h2>
+            <p class="house__sub">Pick a room, or use the arrow keys to move between them.</p>
           </div>
-
-          <div class="home__social">
-            <a
-              href="https://github.com/sujeetmainali"
-              class="home__social-icon"
-              target="_blank"
-              rel="noopener"
-              aria-label="GitHub"
-              ><i class="bx bxl-github"></i
-            ></a>
-            <a
-              href="https://www.linkedin.com/in/sujeetmainali/"
-              class="home__social-icon"
-              target="_blank"
-              rel="noopener"
-              aria-label="LinkedIn"
-              ><i class="bx bxl-linkedin"></i
-            ></a>
-            <a
-              href="mailto:mainalisujeet@gmail.com"
-              target="_blank"
-              rel="noopener"
-              class="home__social-icon"
-              aria-label="Email"
-              ><i class="bx bx-envelope"></i
-            ></a>
-          </div>
+          <button class="btn btn--ghost btn--sm" type="button" id="house-exit">Leave the house</button>
         </div>
 
-        <div class="home__img" data-reveal data-reveal-delay="1">
-          <div class="home__img-ring">
-            <img
-              src="./images/profilepic.jpeg"
-              alt="Sujeet Mainali, Full-Stack Developer and Senior Software Engineer"
-            />
+        <div class="house-scene" id="house-scene" aria-hidden="true">
+          <div class="house-labels" id="house-labels"></div>
+        </div>
+
+        <div class="plan" id="plan">
+          <button class="room" type="button" data-room="about">
+            <span class="room__name">Study</span>
+            <span class="room__meta">Background and 4+ years</span>
+          </button>
+          <button class="room" type="button" data-room="skills">
+            <span class="room__name">Living room</span>
+            <span class="room__meta">33 tools in 4 groups</span>
+          </button>
+          <button class="room" type="button" data-room="experience">
+            <span class="room__name">Workshop</span>
+            <span class="room__meta">3 roles</span>
+          </button>
+          <button class="room" type="button" data-room="projects">
+            <span class="room__name">Gallery</span>
+            <span class="room__meta">6 projects</span>
+          </button>
+          <button class="room" type="button" data-room="certifications">
+            <span class="room__name">Library</span>
+            <span class="room__meta">2 certificates</span>
+          </button>
+          <button class="room" type="button" data-room="contact">
+            <span class="room__name">Porch</span>
+            <span class="room__meta">Email, LinkedIn, GitHub</span>
+          </button>
+          <button class="room room--home" type="button" data-room="home">
+            <span class="room__name">Entrance hall</span>
+            <span class="room__meta">Start here</span>
+          </button>
+        </div>
+
+        <div class="walk">
+          <p class="walk__now">You are in <strong id="walk-now">Entrance hall</strong></p>
+          <div class="walk__btns">
+            <button class="btn btn--ghost btn--sm" type="button" id="walk-prev">
+              <i class="bx bx-left-arrow-alt" aria-hidden="true"></i> Previous room
+            </button>
+            <button class="btn btn--ghost btn--sm" type="button" id="walk-next">
+              Next room <i class="bx bx-right-arrow-alt" aria-hidden="true"></i>
+            </button>
           </div>
         </div>
       </section>
+      <!--===== HOME =====-->
+      <section class="hero container" id="home">
+        <div class="hero__text" data-reveal>
+          <p class="hero__status">
+            <span class="status-dot" aria-hidden="true"></span>
+            Available for new opportunities
+          </p>
+          <h1 class="hero__title">Sujeet Mainali</h1>
+          <p class="hero__role">
+            Full-Stack Developer &amp; Senior Software Engineer
+          </p>
+          <p class="hero__lede">
+            I design and build scalable web applications end-to-end, from clean,
+            responsive front-ends to robust APIs and cloud infrastructure, with a
+            focus on clean code and real product impact.
+          </p>
 
-      <!--===== ABOUT =====-->
-      <section class="about section" id="about">
-        <h2 class="section-title" data-reveal>About Me</h2>
-        <span class="section-subtitle" data-reveal>Who I am</span>
-
-        <div class="about__container bd-grid">
-          <div class="about__img" data-reveal>
-            <img
-              src="./images/profilepic.jpeg"
-              alt="Sujeet Mainali smiling outdoors"
-            />
+          <div class="hero__actions">
+            <a href="#projects" class="btn">View projects</a>
+            <a href="#contact" class="btn btn--ghost">Get in touch</a>
           </div>
 
-          <div data-reveal data-reveal-delay="1">
-            <h3 class="about__subtitle">
+          <div class="hero__social">
+            <button class="house-start-btn" type="button" id="house-start">
+              Walk through the house
+              <i class="bx bx-right-arrow-alt" aria-hidden="true"></i>
+            </button>
+            <a
+              href="https://github.com/sujeetmainali"
+              class="icon-btn"
+              target="_blank"
+              rel="noopener"
+              aria-label="GitHub"
+              ><i class="bx bxl-github" aria-hidden="true"></i
+            ></a>
+            <a
+              href="https://www.linkedin.com/in/sujeetmainali/"
+              class="icon-btn"
+              target="_blank"
+              rel="noopener"
+              aria-label="LinkedIn"
+              ><i class="bx bxl-linkedin" aria-hidden="true"></i
+            ></a>
+            <a
+              href="mailto:mainalisujeet@gmail.com"
+              class="icon-btn"
+              aria-label="Email"
+              ><i class="bx bx-envelope" aria-hidden="true"></i
+            ></a>
+          </div>
+        </div>
+
+        <figure class="hero__portrait" data-reveal data-reveal-delay="1">
+          <img
+            src="./images/profilepic.jpeg"
+            alt="Sujeet Mainali, Full-Stack Developer and Senior Software Engineer"
+            width="600"
+            height="600"
+          />
+          <figcaption class="hero__now">
+            <span class="hero__now-label">Now</span>
+            <span>Senior Software Engineer at Cyberensic.ai</span>
+          </figcaption>
+        </figure>
+      </section>
+
+      <!--===== ABOUT =====-->
+      <section class="section container" id="about" aria-labelledby="about-title">
+        <header class="section-head" data-reveal>
+          <span class="section-index">01</span>
+          <h2 class="section-title" id="about-title">About me</h2>
+          <p class="section-sub">Who I am</p>
+        </header>
+
+        <div class="about">
+          <div class="about__body" data-reveal>
+            <h3 class="about__lead">
               Full-Stack Developer with 4+ years of experience
             </h3>
-            <p class="about__text">
+            <p>
               I have expertise across the full SDLC, from architecture to
               deployment. I'm skilled in JavaScript, TypeScript, clean coding
               practices, and design patterns, and I enjoy solving hard problems
@@ -246,205 +306,201 @@
               innovative solutions and driving project success - and I genuinely
               enjoy mentoring junior developers along the way.
             </p>
-            <p class="about__text">
+            <p>
               I hold a BSc (Hons) in Computing from Islington College, in
               affiliation with London Metropolitan University.
             </p>
-
-            <div class="about__stats">
-              <div class="about__stat">
-                <span class="about__stat-number">4+</span>
-                <span class="about__stat-label">Years Experience</span>
-              </div>
-              <div class="about__stat">
-                <span class="about__stat-number">6+</span>
-                <span class="about__stat-label">Major Projects</span>
-              </div>
-              <div class="about__stat">
-                <span class="about__stat-number">3</span>
-                <span class="about__stat-label">Companies</span>
-              </div>
-            </div>
           </div>
+
+          <dl class="stats" data-reveal data-reveal-delay="1">
+            <div class="stat">
+              <dt>Years experience</dt>
+              <dd><span data-count="4" data-suffix="+">4+</span></dd>
+            </div>
+            <div class="stat">
+              <dt>Major projects</dt>
+              <dd><span data-count="6" data-suffix="+">6+</span></dd>
+            </div>
+            <div class="stat">
+              <dt>Companies</dt>
+              <dd><span data-count="3">3</span></dd>
+            </div>
+          </dl>
         </div>
       </section>
 
       <!--===== SKILLS =====-->
-      <section class="skills section" id="skills">
-        <h2 class="section-title" data-reveal>Skills</h2>
-        <span class="section-subtitle" data-reveal>What I work with</span>
+      <section class="section container" id="skills" aria-labelledby="skills-title">
+        <header class="section-head" data-reveal>
+          <span class="section-index">02</span>
+          <h2 class="section-title" id="skills-title">Skills</h2>
+          <p class="section-sub">What I work with</p>
+        </header>
 
-        <div class="skills__container bd-grid">
-          <div class="skills__card" data-reveal>
-            <div class="skills__card-head">
-              <i class="bx bx-code-alt skills__card-icon"></i>
-              <h3 class="skills__card-title">Languages</h3>
-            </div>
-            <div class="skills__tags">
-              <span class="tag">JavaScript</span>
-              <span class="tag">TypeScript</span>
-              <span class="tag">C#</span>
-              <span class="tag">Python</span>
-              <span class="tag">HTML5</span>
-              <span class="tag">CSS3</span>
-              <span class="tag">SQL</span>
+        <div class="skills">
+          <div class="skill-group" data-reveal>
+            <h3 class="skill-group__title"><i class="bx bx-code-alt" aria-hidden="true"></i> Languages</h3>
+            <div class="tags">
+              <span class="tag skill-tag">JavaScript</span>
+              <span class="tag skill-tag">TypeScript</span>
+              <span class="tag skill-tag">C#</span>
+              <span class="tag skill-tag">Python</span>
+              <span class="tag skill-tag">HTML5</span>
+              <span class="tag skill-tag">CSS3</span>
+              <span class="tag skill-tag">SQL</span>
             </div>
           </div>
 
-          <div class="skills__card" data-reveal data-reveal-delay="1">
-            <div class="skills__card-head">
-              <i class="bx bx-layer skills__card-icon"></i>
-              <h3 class="skills__card-title">Frameworks &amp; Libraries</h3>
-            </div>
-            <div class="skills__tags">
-              <span class="tag">React.js</span>
-              <span class="tag">Next.js</span>
-              <span class="tag">Node.js</span>
-              <span class="tag">Nest.js</span>
-              <span class="tag">Express.js</span>
-              <span class="tag">FastAPI</span>
-              <span class="tag">GraphQL</span>
-              <span class="tag">Apollo</span>
-              <span class="tag">Redux Toolkit</span>
-              <span class="tag">React Query</span>
-              <span class="tag">Tailwind CSS</span>
-              <span class="tag">Shadcn UI</span>
-              <span class="tag">Chakra UI</span>
-              <span class="tag">Material UI</span>
-              <span class="tag">Vitest</span>
+          <div class="skill-group" data-reveal data-reveal-delay="1">
+            <h3 class="skill-group__title"><i class="bx bx-layer" aria-hidden="true"></i> Frameworks &amp; libraries</h3>
+            <div class="tags">
+              <span class="tag skill-tag">React.js</span>
+              <span class="tag skill-tag">Next.js</span>
+              <span class="tag skill-tag">Node.js</span>
+              <span class="tag skill-tag">Nest.js</span>
+              <span class="tag skill-tag">Express.js</span>
+              <span class="tag skill-tag">FastAPI</span>
+              <span class="tag skill-tag">GraphQL</span>
+              <span class="tag skill-tag">Apollo</span>
+              <span class="tag skill-tag">Redux Toolkit</span>
+              <span class="tag skill-tag">React Query</span>
+              <span class="tag skill-tag">Tailwind CSS</span>
+              <span class="tag skill-tag">Shadcn UI</span>
+              <span class="tag skill-tag">Chakra UI</span>
+              <span class="tag skill-tag">Material UI</span>
+              <span class="tag skill-tag">Vitest</span>
             </div>
           </div>
 
-          <div class="skills__card" data-reveal>
-            <div class="skills__card-head">
-              <i class="bx bx-data skills__card-icon"></i>
-              <h3 class="skills__card-title">Databases</h3>
-            </div>
-            <div class="skills__tags">
-              <span class="tag">PostgreSQL</span>
-              <span class="tag">MySQL</span>
-              <span class="tag">MongoDB</span>
-              <span class="tag">TypeORM</span>
-              <span class="tag">Prisma</span>
+          <div class="skill-group" data-reveal>
+            <h3 class="skill-group__title"><i class="bx bx-data" aria-hidden="true"></i> Databases</h3>
+            <div class="tags">
+              <span class="tag skill-tag">PostgreSQL</span>
+              <span class="tag skill-tag">MySQL</span>
+              <span class="tag skill-tag">MongoDB</span>
+              <span class="tag skill-tag">TypeORM</span>
+              <span class="tag skill-tag">Prisma</span>
             </div>
           </div>
 
-          <div class="skills__card" data-reveal data-reveal-delay="1">
-            <div class="skills__card-head">
-              <i class="bx bxs-cloud skills__card-icon"></i>
-              <h3 class="skills__card-title">Cloud &amp; DevOps</h3>
-            </div>
-            <div class="skills__tags">
-              <span class="tag">AWS</span>
-              <span class="tag">Docker</span>
-              <span class="tag">Linux</span>
-              <span class="tag">Git</span>
-              <span class="tag">GitHub Actions</span>
-              <span class="tag">Nginx</span>
+          <div class="skill-group" data-reveal data-reveal-delay="1">
+            <h3 class="skill-group__title"><i class="bx bxs-cloud" aria-hidden="true"></i> Cloud &amp; DevOps</h3>
+            <div class="tags">
+              <span class="tag skill-tag">AWS</span>
+              <span class="tag skill-tag">Docker</span>
+              <span class="tag skill-tag">Linux</span>
+              <span class="tag skill-tag">Git</span>
+              <span class="tag skill-tag">GitHub Actions</span>
+              <span class="tag skill-tag">Nginx</span>
             </div>
           </div>
         </div>
+        <p class="hint" data-reveal>
+          Skills used in a project link to that project in the list below.
+        </p>
       </section>
 
       <!--===== EXPERIENCE =====-->
-      <section class="experience section" id="experience">
-        <h2 class="section-title" data-reveal>Experience</h2>
-        <span class="section-subtitle" data-reveal>Where I've worked</span>
+      <section class="section container" id="experience" aria-labelledby="experience-title">
+        <header class="section-head" data-reveal>
+          <span class="section-index">03</span>
+          <h2 class="section-title" id="experience-title">Experience</h2>
+          <p class="section-sub">Where I've worked</p>
+        </header>
 
-        <div class="experience__container bd-grid">
-          <div class="experience__item" data-reveal>
-            <div class="experience__dot"></div>
-            <div class="experience__card">
-              <span class="experience__date">Jul 2026 - Present</span>
-              <h3 class="experience__role">Senior Software Engineer</h3>
-              <span class="experience__company">Cyberensic.ai</span>
-              <ul class="experience__list">
-                <li>Design and architect end-to-end features technically.</li>
-                <li>Drive product optimization and enhancement.</li>
-              </ul>
-            </div>
-          </div>
+        <div class="timeline">
+          <details class="job" data-reveal open>
+            <summary class="job__summary">
+              <span class="job__when">Jul 2026 – Present</span>
+              <span class="job__main">
+                <span class="job__role">Senior Software Engineer</span>
+                <span class="job__company">Cyberensic.ai</span>
+              </span>
+              <i class="bx bx-chevron-down job__chev" aria-hidden="true"></i>
+            </summary>
+            <ul class="job__list">
+              <li>Design and architect end-to-end features technically.</li>
+              <li>Drive product optimization and enhancement.</li>
+            </ul>
+          </details>
 
-          <div class="experience__item" data-reveal data-reveal-delay="1">
-            <div class="experience__dot"></div>
-            <div class="experience__card">
-              <span class="experience__date">Oct 2024 - Jun 2026</span>
-              <h3 class="experience__role">Full Stack Engineer</h3>
-              <span class="experience__company"
-                >Jams Assist, Inc. · Manteca, CA</span
-              >
-              <ul class="experience__list">
-                <li>
-                  Built responsive, user-friendly interfaces with Next.js, TSX,
-                  Shadcn UI and Tailwind CSS.
-                </li>
-                <li>
-                  Developed scalable server-side logic with FastAPI, Docker,
-                  LangGraph.
-                </li>
-                <li>
-                  Modeled NoSQL database schemas for high-throughput record
-                  storage.
-                </li>
-              </ul>
-            </div>
-          </div>
+          <details class="job" data-reveal data-reveal-delay="1" open>
+            <summary class="job__summary">
+              <span class="job__when">Oct 2024 – Jun 2026</span>
+              <span class="job__main">
+                <span class="job__role">Full Stack Engineer</span>
+                <span class="job__company">Jams Assist, Inc. · Manteca, CA</span>
+              </span>
+              <i class="bx bx-chevron-down job__chev" aria-hidden="true"></i>
+            </summary>
+            <ul class="job__list">
+              <li>
+                Built responsive, user-friendly interfaces with Next.js, TSX,
+                Shadcn UI and Tailwind CSS.
+              </li>
+              <li>
+                Developed scalable server-side logic with FastAPI, Docker,
+                LangGraph.
+              </li>
+              <li>
+                Modeled NoSQL database schemas for high-throughput record
+                storage.
+              </li>
+            </ul>
+          </details>
 
-          <div class="experience__item" data-reveal>
-            <div class="experience__dot"></div>
-            <div class="experience__card">
-              <span class="experience__date">Jun 2022 - Oct 2024</span>
-              <h3 class="experience__role">Full Stack Engineer</h3>
-              <span class="experience__company"
-                >Information Care Pvt. Ltd · Kathmandu</span
-              >
-              <ul class="experience__list">
-                <li>
-                  Implemented Atomic Design and clean-code principles across
-                  React.js interfaces.
-                </li>
-                <li>
-                  Built scalable back-end services with Node.js and Express.js.
-                </li>
-                <li>
-                  Modeled schemas and relationships in MySQL/PostgreSQL using
-                  TypeORM.
-                </li>
-                <li>
-                  Designed RESTful and GraphQL APIs connecting front-end and
-                  back-end systems.
-                </li>
-                <li>
-                  Mentored interns and junior developers through code reviews
-                  and guidance.
-                </li>
-              </ul>
-            </div>
-          </div>
+          <details class="job" data-reveal>
+            <summary class="job__summary">
+              <span class="job__when">Jun 2022 – Oct 2024</span>
+              <span class="job__main">
+                <span class="job__role">Full Stack Engineer</span>
+                <span class="job__company">Information Care Pvt. Ltd · Kathmandu</span>
+              </span>
+              <i class="bx bx-chevron-down job__chev" aria-hidden="true"></i>
+            </summary>
+            <ul class="job__list">
+              <li>
+                Implemented Atomic Design and clean-code principles across React.js
+                interfaces.
+              </li>
+              <li>Built scalable back-end services with Node.js and Express.js.</li>
+              <li>
+                Modeled schemas and relationships in MySQL/PostgreSQL using
+                TypeORM.
+              </li>
+              <li>
+                Designed RESTful and GraphQL APIs connecting front-end and back-end
+                systems.
+              </li>
+              <li>
+                Mentored interns and junior developers through code reviews and
+                guidance.
+              </li>
+            </ul>
+          </details>
         </div>
       </section>
 
       <!--===== PROJECTS =====-->
-      <section class="projects section" id="projects">
-        <h2 class="section-title" data-reveal>Projects</h2>
-        <span class="section-subtitle" data-reveal>Things I've built</span>
+      <section class="section container" id="projects" aria-labelledby="projects-title">
+        <header class="section-head" data-reveal>
+          <span class="section-index">04</span>
+          <h2 class="section-title" id="projects-title">Projects</h2>
+          <p class="section-sub">Things I've built</p>
+        </header>
 
-        <div class="projects__container bd-grid">
-          <article class="project__card" data-reveal>
+        <div class="filter" data-reveal>
+          <div class="filter__chips" id="filter-chips" role="group" aria-label="Filter projects by technology"></div>
+          <p class="filter__count" id="filter-count" aria-live="polite"></p>
+        </div>
+
+        <div class="projects" id="project-list">
+          <article class="project" data-stack="Node.js|PostgreSQL|Prisma|AWS" data-reveal>
             <div class="project__head">
               <h3 class="project__title">CISO Adapt</h3>
-              <a
-                href="https://cisoadapt.ai/"
-                target="_blank"
-                rel="noopener"
-                class="project__link"
-                aria-label="Visit cisoadapt.ai"
-                ><i class="bx bx-link-external"></i
-              ></a>
+              <a href="https://cisoadapt.ai/" target="_blank" rel="noopener" class="icon-btn icon-btn--sm" aria-label="Visit cisoadapt.ai"><i class="bx bx-link-external" aria-hidden="true"></i></a>
             </div>
-            <span class="project__role"
-              >Senior Software Engineer · Cyberensic.ai</span
-            >
+            <p class="project__role">Senior Software Engineer · Cyberensic.ai</p>
             <p class="project__text">
               An AI-powered Governance, Risk, and Compliance (GRC) platform that
               automates security operations and compliance monitoring across
@@ -453,271 +509,199 @@
               third-party risk evaluation and incident management for
               organizations from SMBs to enterprises.
             </p>
-            <div class="project__tags">
-              <span class="tag">Node.js</span>
-              <span class="tag">PostgreSQL</span>
-              <span class="tag">Prisma</span>
-              <span class="tag">AWS</span>
+            <div class="tags">
+              <button class="tag tag--link" type="button" data-filter="Node.js">Node.js</button>
+              <button class="tag tag--link" type="button" data-filter="PostgreSQL">PostgreSQL</button>
+              <button class="tag tag--link" type="button" data-filter="Prisma">Prisma</button>
+              <button class="tag tag--link" type="button" data-filter="AWS">AWS</button>
             </div>
           </article>
 
-          <article class="project__card" data-reveal data-reveal-delay="1">
+          <article class="project" data-stack="Next.js|FastAPI|LangGraph|Tailwind CSS" data-reveal data-reveal-delay="1">
             <div class="project__head">
               <h3 class="project__title">Jobsflow.ai</h3>
-              <a
-                href="https://jobsflow.ai/"
-                target="_blank"
-                rel="noopener"
-                class="project__link"
-                aria-label="Visit jobsflow.ai"
-                ><i class="bx bx-link-external"></i
-              ></a>
+              <a href="https://jobsflow.ai/" target="_blank" rel="noopener" class="icon-btn icon-btn--sm" aria-label="Visit jobsflow.ai"><i class="bx bx-link-external" aria-hidden="true"></i></a>
             </div>
-            <span class="project__role"
-              >Senior Full Stack Engineer · Jams Assist, Inc.</span
-            >
+            <p class="project__role">Senior Full Stack Engineer · Jams Assist, Inc.</p>
             <p class="project__text">
-              AI for your job workflow - a platform bringing AI-driven
-              automation to job-related workflows for both recruiter and
-              candidate experiences, including resume parsing, resume scoring,
-              AI interview, Interview scoring and suggestions, job matching,
-              interview scheduling and candidate engagement.
+              AI for your job workflow - a platform bringing AI-driven automation
+              to job-related workflows for both recruiter and candidate
+              experiences, including resume parsing, resume scoring, AI interview,
+              Interview scoring and suggestions, job matching, interview scheduling
+              and candidate engagement.
             </p>
-            <div class="project__tags">
-              <span class="tag">Next.js</span>
-              <span class="tag">FastAPI</span>
-              <span class="tag">LangGraph</span>
-              <span class="tag">Tailwind CSS</span>
+            <div class="tags">
+              <button class="tag tag--link" type="button" data-filter="Next.js">Next.js</button>
+              <button class="tag tag--link" type="button" data-filter="FastAPI">FastAPI</button>
+              <button class="tag tag--link" type="button" data-filter="LangGraph">LangGraph</button>
+              <button class="tag tag--link" type="button" data-filter="Tailwind CSS">Tailwind CSS</button>
             </div>
           </article>
 
-          <article class="project__card" data-reveal>
+          <article class="project" data-stack="Node.js|React.js|PostgreSQL|TypeORM|GraphQL|WebSocket" data-reveal>
             <div class="project__head">
               <h3 class="project__title">Service Delivery Application</h3>
-              <a
-                href="https://mypalika.com/"
-                target="_blank"
-                rel="noopener"
-                class="project__link"
-                aria-label="Visit mypalika.com"
-                ><i class="bx bx-link-external"></i
-              ></a>
+              <a href="https://mypalika.com/" target="_blank" rel="noopener" class="icon-btn icon-btn--sm" aria-label="Visit mypalika.com"><i class="bx bx-link-external" aria-hidden="true"></i></a>
             </div>
-            <span class="project__role">Full Stack Developer</span>
+            <p class="project__role">Full Stack Developer</p>
             <p class="project__text">
               An all-in-one platform digitalizing municipality operations -
-              appointments, business registration, citizen charters, profiling
-              and verbal-dispute (Ijalas) handling, built as microservices
-              acting as one system.
+              appointments, business registration, citizen charters, profiling and
+              verbal-dispute (Ijalas) handling, built as microservices acting as
+              one system.
             </p>
-            <div class="project__tags">
-              <span class="tag">Node.js</span>
-              <span class="tag">React.js</span>
-              <span class="tag">PostgreSQL</span>
-              <span class="tag">TypeORM</span>
-              <span class="tag">GraphQL</span>
-              <span class="tag">WebSocket</span>
+            <div class="tags">
+              <button class="tag tag--link" type="button" data-filter="Node.js">Node.js</button>
+              <button class="tag tag--link" type="button" data-filter="React.js">React.js</button>
+              <button class="tag tag--link" type="button" data-filter="PostgreSQL">PostgreSQL</button>
+              <button class="tag tag--link" type="button" data-filter="TypeORM">TypeORM</button>
+              <button class="tag tag--link" type="button" data-filter="GraphQL">GraphQL</button>
+              <button class="tag tag--link" type="button" data-filter="WebSocket">WebSocket</button>
             </div>
           </article>
 
-          <article class="project__card" data-reveal data-reveal-delay="1">
+          <article class="project" data-stack="Node.js|React.js|PostgreSQL|TypeORM|REST API" data-reveal data-reveal-delay="1">
             <div class="project__head">
               <h3 class="project__title">Connect Kishan</h3>
-              <a
-                href="https://connectkisan.com"
-                target="_blank"
-                rel="noopener"
-                class="project__link"
-                aria-label="Visit Connect Kishan"
-                ><i class="bx bx-link-external"></i
-              ></a>
+              <a href="https://connectkisan.com" target="_blank" rel="noopener" class="icon-btn icon-btn--sm" aria-label="Visit Connect Kishan"><i class="bx bx-link-external" aria-hidden="true"></i></a>
             </div>
-            <span class="project__role">Full Stack Developer</span>
+            <p class="project__role">Full Stack Developer</p>
             <p class="project__text">
               An all-in-one platform for farmers combining weather forecasting,
               farmer registration, subsidy applications, call-center support and
-              training - also deployed for Benighat Rural Municipality and
-              Phetamun Municipality.
+              training - also deployed for Benighat Rural Municipality and Phetamun
+              Municipality.
             </p>
-            <div class="project__tags">
-              <span class="tag">Node.js</span>
-              <span class="tag">React.js</span>
-              <span class="tag">PostgreSQL</span>
-              <span class="tag">TypeORM</span>
-              <span class="tag">REST API</span>
+            <div class="tags">
+              <button class="tag tag--link" type="button" data-filter="Node.js">Node.js</button>
+              <button class="tag tag--link" type="button" data-filter="React.js">React.js</button>
+              <button class="tag tag--link" type="button" data-filter="PostgreSQL">PostgreSQL</button>
+              <button class="tag tag--link" type="button" data-filter="TypeORM">TypeORM</button>
+              <button class="tag tag--link" type="button" data-filter="REST API">REST API</button>
             </div>
           </article>
 
-          <article class="project__card" data-reveal>
+          <article class="project" data-stack="Next.js|Node.js|GraphQL|PostgreSQL|Tailwind CSS" data-reveal>
             <div class="project__head">
               <h3 class="project__title">Connect Kisan E-Commerce</h3>
-              <a
-                href="https://bazar.connectkisan.com"
-                target="_blank"
-                rel="noopener"
-                class="project__link"
-                aria-label="Visit bazar.connectkisan.com"
-                ><i class="bx bx-link-external"></i
-              ></a>
+              <a href="https://bazar.connectkisan.com" target="_blank" rel="noopener" class="icon-btn icon-btn--sm" aria-label="Visit bazar.connectkisan.com"><i class="bx bx-link-external" aria-hidden="true"></i></a>
             </div>
-            <span class="project__role">Team Lead / Full Stack Developer</span>
+            <p class="project__role">Team Lead / Full Stack Developer</p>
             <p class="project__text">
               A multi-vendor e-commerce platform offering a seamless shopping
               experience with dynamic product listings, cart management and
               checkout.
             </p>
-            <div class="project__tags">
-              <span class="tag">Next.js</span>
-              <span class="tag">Node.js</span>
-              <span class="tag">GraphQL</span>
-              <span class="tag">PostgreSQL</span>
-              <span class="tag">Tailwind CSS</span>
+            <div class="tags">
+              <button class="tag tag--link" type="button" data-filter="Next.js">Next.js</button>
+              <button class="tag tag--link" type="button" data-filter="Node.js">Node.js</button>
+              <button class="tag tag--link" type="button" data-filter="GraphQL">GraphQL</button>
+              <button class="tag tag--link" type="button" data-filter="PostgreSQL">PostgreSQL</button>
+              <button class="tag tag--link" type="button" data-filter="Tailwind CSS">Tailwind CSS</button>
             </div>
           </article>
 
-          <article class="project__card" data-reveal data-reveal-delay="1">
+          <article class="project" data-stack="Node.js|React.js|PostgreSQL|TypeGraphQL|Apollo" data-reveal data-reveal-delay="1">
             <div class="project__head">
               <h3 class="project__title">Worksheet</h3>
-              <a
-                href="https://worksheet.cliffbyte.com"
-                target="_blank"
-                rel="noopener"
-                class="project__link"
-                aria-label="Visit Worksheet"
-                ><i class="bx bx-link-external"></i
-              ></a>
+              <a href="https://worksheet.cliffbyte.com" target="_blank" rel="noopener" class="icon-btn icon-btn--sm" aria-label="Visit Worksheet"><i class="bx bx-link-external" aria-hidden="true"></i></a>
             </div>
-            <span class="project__role">Team Lead, Full-Stack Developer</span>
+            <p class="project__role">Team Lead, Full-Stack Developer</p>
             <p class="project__text">
-              A franchise-based platform for sharing worksheets, question papers
-              and video resources with schools, alongside various training
-              programs.
+              A franchise-based platform for sharing worksheets, question papers and
+              video resources with schools, alongside various training programs.
             </p>
-            <div class="project__tags">
-              <span class="tag">Node.js</span>
-              <span class="tag">React.js</span>
-              <span class="tag">PostgreSQL</span>
-              <span class="tag">TypeGraphQL</span>
-              <span class="tag">Apollo</span>
+            <div class="tags">
+              <button class="tag tag--link" type="button" data-filter="Node.js">Node.js</button>
+              <button class="tag tag--link" type="button" data-filter="React.js">React.js</button>
+              <button class="tag tag--link" type="button" data-filter="PostgreSQL">PostgreSQL</button>
+              <button class="tag tag--link" type="button" data-filter="TypeGraphQL">TypeGraphQL</button>
+              <button class="tag tag--link" type="button" data-filter="Apollo">Apollo</button>
             </div>
           </article>
         </div>
       </section>
 
       <!--===== CERTIFICATIONS =====-->
-      <section class="certifications section" id="certifications">
-        <h2 class="section-title" data-reveal>Certifications</h2>
-        <span class="section-subtitle" data-reveal>Continued learning</span>
+      <section class="section container" id="certifications" aria-labelledby="certs-title">
+        <header class="section-head" data-reveal>
+          <span class="section-index">05</span>
+          <h2 class="section-title" id="certs-title">Certifications</h2>
+          <p class="section-sub">Continued learning</p>
+        </header>
 
-        <div class="certifications__container bd-grid">
-          <div class="cert__card" data-reveal>
-            <i class="bx bx-badge-check cert__icon"></i>
+        <ul class="certs">
+          <li class="cert" data-reveal>
+            <i class="bx bx-badge-check cert__icon" aria-hidden="true"></i>
             <div>
-              <h3 class="cert__title">
-                AWS Academy Graduate - AWS Academy Machine Learning Foundations
-              </h3>
-              <span class="cert__meta"
-                >Amazon Web Services (AWS) · Issued Nov 2022</span
-              >
+              <h3 class="cert__title">AWS Academy Graduate - AWS Academy Machine Learning Foundations</h3>
+              <p class="cert__meta">Amazon Web Services (AWS) · Issued Nov 2022</p>
+              <a href="https://www.credly.com/badges/0d1025b4-b5e8-4d28-9568-baca110c6854/linked_in_profile" target="_blank" rel="noopener" class="cert__verify">Verify credential<i class="bx bx-up-arrow-alt" aria-hidden="true"></i></a>
             </div>
-          </div>
-          <div class="cert__card" data-reveal data-reveal-delay="1">
-            <i class="bx bx-badge-check cert__icon"></i>
+          </li>
+          <li class="cert" data-reveal data-reveal-delay="1">
+            <i class="bx bx-badge-check cert__icon" aria-hidden="true"></i>
             <div>
-              <h3 class="cert__title">
-                AWS Academy Graduate - AWS Academy Cloud Foundations
-              </h3>
-              <span class="cert__meta"
-                >Amazon Web Services (AWS) · Issued Sep 2022</span
-              >
+              <h3 class="cert__title">AWS Academy Graduate - AWS Academy Cloud Foundations</h3>
+              <p class="cert__meta">Amazon Web Services (AWS) · Issued Sep 2022</p>
+              <a href="https://www.credly.com/badges/9673030c-6750-48a7-b5a1-cdb8980aa644/linked_in_profile" target="_blank" rel="noopener" class="cert__verify">Verify credential<i class="bx bx-up-arrow-alt" aria-hidden="true"></i></a>
             </div>
-          </div>
-        </div>
+          </li>
+        </ul>
       </section>
 
       <!--===== CONTACT =====-->
-      <section class="contact section" id="contact">
-        <h2 class="section-title" data-reveal>Get In Touch</h2>
-        <span class="section-subtitle" data-reveal>Let's work together</span>
+      <section class="section container contact" id="contact" aria-labelledby="contact-title">
+        <header class="section-head" data-reveal>
+          <span class="section-index">06</span>
+          <h2 class="section-title" id="contact-title">Get in touch</h2>
+          <p class="section-sub">Let's work together</p>
+        </header>
 
-        <div class="contact__container bd-grid" data-reveal>
-          <p class="contact__text">
-            I'm always open to discussing new projects, opportunities or ideas.
-            Reach out through any of the channels below.
-          </p>
-
-          <div class="contact__grid">
-            <a
-              href="mailto:mainalisujeet@gmail.com"
-              target="_blank"
-              rel="noopener"
-              class="contact__card"
-            >
-              <i class="bx bx-envelope contact__icon"></i>
-              <span class="contact__label">Email</span>
-              <span class="contact__value">mainalisujeet@gmail.com</span>
-            </a>
-            <a
-              href="https://www.linkedin.com/in/sujeetmainali/"
-              target="_blank"
-              rel="noopener"
-              class="contact__card"
-            >
-              <i class="bx bxl-linkedin contact__icon"></i>
-              <span class="contact__label">LinkedIn</span>
-              <span class="contact__value">/in/sujeetmainali</span>
-            </a>
-            <a
-              href="https://github.com/sujeetmainali"
-              target="_blank"
-              rel="noopener"
-              class="contact__card"
-            >
-              <i class="bx bxl-github contact__icon"></i>
-              <span class="contact__label">GitHub</span>
-              <span class="contact__value">/sujeetmainali</span>
-            </a>
+        <div class="contact__grid">
+          <div class="contact__lead" data-reveal>
+            <p class="contact__big">Open to new projects, opportunities and ideas.</p>
+            <div class="contact__email">
+              <a href="mailto:mainalisujeet@gmail.com" class="contact__address">mainalisujeet@gmail.com</a>
+              <button class="btn btn--ghost btn--sm" type="button" id="copy-email">
+                <i class="bx bx-copy" aria-hidden="true"></i>
+                <span>Copy email</span>
+              </button>
+            </div>
           </div>
+
+          <ul class="contact__links" data-reveal data-reveal-delay="1">
+            <li>
+              <a href="https://www.linkedin.com/in/sujeetmainali/" target="_blank" rel="noopener" class="contact__link">
+                <i class="bx bxl-linkedin" aria-hidden="true"></i>
+                <span class="contact__name">LinkedIn</span>
+                <span class="contact__value">/in/sujeetmainali</span>
+                <i class="bx bx-up-arrow-alt contact__arrow" aria-hidden="true"></i>
+              </a>
+            </li>
+            <li>
+              <a href="https://github.com/sujeetmainali" target="_blank" rel="noopener" class="contact__link">
+                <i class="bx bxl-github" aria-hidden="true"></i>
+                <span class="contact__name">GitHub</span>
+                <span class="contact__value">/sujeetmainali</span>
+                <i class="bx bx-up-arrow-alt contact__arrow" aria-hidden="true"></i>
+              </a>
+            </li>
+          </ul>
         </div>
       </section>
-
-      <!--===== FOOTER =====-->
-      <footer class="footer">
-        <p class="footer__title">Sujeet Mainali</p>
-        <p class="footer__tagline">Senior Software Engineer</p>
-        <div class="footer__social">
-          <a
-            href="https://github.com/sujeetmainali"
-            class="footer__icon"
-            target="_blank"
-            rel="noopener"
-            aria-label="GitHub"
-            ><i class="bx bxl-github"></i
-          ></a>
-          <a
-            href="https://www.linkedin.com/in/sujeetmainali/"
-            class="footer__icon"
-            target="_blank"
-            rel="noopener"
-            aria-label="LinkedIn"
-            ><i class="bx bxl-linkedin"></i
-          ></a>
-          <a
-            href="mailto:mainalisujeet@gmail.com"
-            target="_blank"
-            rel="noopener"
-            class="footer__icon"
-            aria-label="Email"
-            ><i class="bx bx-envelope"></i
-          ></a>
-        </div>
-        <p class="footer__copy">
-          &#169; <span id="year"></span> Sujeet Mainali. All rights reserved.
-        </p>
-      </footer>
     </main>
 
+    <!--===== FOOTER =====-->
+    <footer class="footer container">
+      <p class="footer__name">Sujeet Mainali</p>
+      <p class="footer__meta">
+        Senior Software Engineer · &#169; <span id="year"></span>
+      </p>
+    </footer>
+
     <!--===== MAIN JS =====-->
+    <script type="module" src="./js/house.js"></script>
     <script src="./js/main.js"></script>
   </body>
 </html>

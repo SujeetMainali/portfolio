@@ -1,120 +1,259 @@
-/*===== THEME TOGGLE =====*/
-const themeToggle = document.getElementById('theme-toggle')
-const themeIcon = themeToggle ? themeToggle.querySelector('i') : null
-const storedTheme = localStorage.getItem('theme')
+/*
+  Sujeet Mainali portfolio. Plain JavaScript, no dependencies.
+  Everything here is progressive: without JS the page is still complete.
+*/
+(() => {
+  const root = document.documentElement
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  const $ = (sel, scope = document) => scope.querySelector(sel)
+  const $$ = (sel, scope = document) => [...scope.querySelectorAll(sel)]
 
-function applyTheme(theme) {
-    document.documentElement.setAttribute('data-theme', theme)
-    if (themeIcon) {
-        themeIcon.className = theme === 'dark' ? 'bx bx-sun' : 'bx bx-moon'
+  /*===== THEME =====*/
+  const themeBtn = $('#theme-toggle')
+
+  function paintThemeIcon() {
+    const icon = $('i', themeBtn)
+    const isDark = root.getAttribute('data-theme') === 'dark'
+    icon.className = isDark ? 'bx bx-sun' : 'bx bx-moon'
+    themeBtn.setAttribute('aria-pressed', String(isDark))
+  }
+
+  themeBtn.addEventListener('click', () => {
+    const next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark'
+    root.setAttribute('data-theme', next)
+    try {
+      localStorage.setItem('theme', next)
+    } catch (e) {}
+    paintThemeIcon()
+  })
+  paintThemeIcon()
+
+  /*===== MOBILE MENU =====*/
+  const menuBtn = $('#nav-toggle')
+  const menu = $('#nav-menu')
+
+  function setMenu(open) {
+    menu.classList.toggle('is-open', open)
+    menuBtn.setAttribute('aria-expanded', String(open))
+    menuBtn.setAttribute('aria-label', open ? 'Close menu' : 'Open menu')
+    $('i', menuBtn).className = open ? 'bx bx-x' : 'bx bx-menu'
+  }
+
+  menuBtn.addEventListener('click', () => setMenu(!menu.classList.contains('is-open')))
+  $$('.nav__link').forEach((link) => link.addEventListener('click', () => setMenu(false)))
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && menu.classList.contains('is-open')) {
+      setMenu(false)
+      menuBtn.focus()
     }
-}
+  })
 
-if (storedTheme) {
-    applyTheme(storedTheme)
-} else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-    applyTheme('dark')
-}
+  /*===== HEADER BORDER ON SCROLL =====*/
+  const header = $('#header')
+  const onScroll = () => header.classList.toggle('is-scrolled', window.scrollY > 8)
+  window.addEventListener('scroll', onScroll, { passive: true })
+  onScroll()
 
-if (themeToggle) {
-    themeToggle.addEventListener('click', () => {
-        const current = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light'
-        const next = current === 'dark' ? 'light' : 'dark'
-        applyTheme(next)
-        localStorage.setItem('theme', next)
-    })
-}
-
-/*===== PALETTE SELECT =====*/
-const paletteSelect = document.getElementById('palette-select')
-
-if (paletteSelect) {
-    paletteSelect.value = document.documentElement.getAttribute('data-palette') || 'slate-amber'
-
-    paletteSelect.addEventListener('change', () => {
-        const palette = paletteSelect.value
-        document.documentElement.setAttribute('data-palette', palette)
-        localStorage.setItem('palette', palette)
-    })
-}
-
-/*===== MENU SHOW =====*/
-const showMenu = (toggleId, navId) => {
-    const toggle = document.getElementById(toggleId)
-    const nav = document.getElementById(navId)
-
-    if (toggle && nav) {
-        toggle.addEventListener('click', () => {
-            nav.classList.toggle('show')
+  /*===== NAV: CURRENT SECTION =====*/
+  const navLinks = new Map($$('.nav__link').map((a) => [a.getAttribute('href').slice(1), a]))
+  if ('IntersectionObserver' in window) {
+    const spy = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return
+          navLinks.forEach((link, id) => {
+            link.setAttribute('aria-current', String(id === entry.target.id))
+          })
         })
-    }
-}
-showMenu('nav-toggle', 'nav-menu')
-
-/*==================== REMOVE MENU MOBILE ====================*/
-const navLink = document.querySelectorAll('.nav__link')
-
-function linkAction() {
-    const navMenu = document.getElementById('nav-menu')
-    navMenu.classList.remove('show')
-}
-navLink.forEach(n => n.addEventListener('click', linkAction))
-
-/*==================== SCROLL SECTIONS ACTIVE LINK ====================*/
-const sections = document.querySelectorAll('section[id]')
-
-function scrollActive() {
-    const scrollY = window.pageYOffset
-
-    sections.forEach(current => {
-        const sectionHeight = current.offsetHeight
-        const sectionTop = current.offsetTop - 80
-        const sectionId = current.getAttribute('id')
-        const link = document.querySelector('.nav__menu a[href*=' + sectionId + ']')
-
-        if (!link) return
-
-        if (scrollY > sectionTop && scrollY <= sectionTop + sectionHeight) {
-            link.classList.add('active')
-        } else {
-            link.classList.remove('active')
-        }
+      },
+      { rootMargin: '-45% 0px -50% 0px' }
+    )
+    navLinks.forEach((_, id) => {
+      const section = document.getElementById(id)
+      if (section) spy.observe(section)
     })
-}
-window.addEventListener('scroll', scrollActive)
+  }
 
-/*===== HEADER SHADOW ON SCROLL =====*/
-const header = document.getElementById('header')
-function headerShadow() {
-    if (!header) return
-    if (window.scrollY > 20) {
-        header.style.boxShadow = '0 6px 20px -10px rgba(15, 23, 42, .25)'
-    } else {
-        header.style.boxShadow = 'none'
+  /*===== PROJECT STACK FILTER =====*/
+  const projects = $$('.project')
+  const chipsBox = $('#filter-chips')
+  const countBox = $('#filter-count')
+
+  // Count how many projects use each technology, most used first.
+  const usage = new Map()
+  projects.forEach((p) => {
+    p.dataset.stack.split('|').forEach((tech) => usage.set(tech, (usage.get(tech) || 0) + 1))
+  })
+  const techs = [...usage.keys()].sort(
+    (a, b) => usage.get(b) - usage.get(a) || a.localeCompare(b)
+  )
+
+  function makeChip(value, label) {
+    const chip = document.createElement('button')
+    chip.type = 'button'
+    chip.className = 'chip'
+    chip.dataset.value = value
+    chip.textContent = label
+    chip.setAttribute('aria-pressed', 'false')
+    return chip
+  }
+
+  chipsBox.appendChild(makeChip('All', 'All'))
+  techs.forEach((tech) => chipsBox.appendChild(makeChip(tech, tech)))
+
+  function setFilter(value, { scroll = false } = {}) {
+    const enteringIds = []
+
+    $$('.chip', chipsBox).forEach((chip) => {
+      chip.setAttribute('aria-pressed', String(chip.dataset.value === value))
+    })
+
+    let shown = 0
+    projects.forEach((p) => {
+      const match = value === 'All' || p.dataset.stack.split('|').includes(value)
+      const wasHidden = p.hidden
+      p.hidden = !match
+      if (match) {
+        shown++
+        if (wasHidden) enteringIds.push(p)
+      }
+      p.classList.remove('is-entering')
+    })
+
+    // Small fade for cards that came back into view.
+    if (!reduceMotion) {
+      enteringIds.forEach((p) => {
+        p.classList.remove('is-entering')
+        void p.offsetWidth
+        p.classList.add('is-entering')
+      })
     }
-}
-window.addEventListener('scroll', headerShadow)
 
-/*===== SCROLL REVEAL (IntersectionObserver) =====*/
-const revealEls = document.querySelectorAll('[data-reveal]')
+    countBox.textContent =
+      value === 'All'
+        ? `Showing all ${projects.length} projects`
+        : `Showing ${shown} of ${projects.length} using ${value}`
 
-if ('IntersectionObserver' in window) {
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('is-visible')
-                observer.unobserve(entry.target)
-            }
+    if (scroll) goTo('projects')
+  }
+
+  chipsBox.addEventListener('click', (e) => {
+    const chip = e.target.closest('.chip')
+    if (chip) setFilter(chip.dataset.value)
+  })
+
+  // Tags on a project filter the list to that technology.
+  document.addEventListener('click', (e) => {
+    const tag = e.target.closest('[data-filter]')
+    if (!tag) return
+    setFilter(tag.dataset.filter, { scroll: false })
+    goTo('projects')
+  })
+
+  setFilter('All')
+
+  /*===== SKILLS THAT LINK TO PROJECTS =====*/
+  const used = new Set(techs)
+  $$('.skill-tag').forEach((tag) => {
+    const name = tag.textContent.trim()
+    if (!used.has(name)) return
+    const btn = document.createElement('button')
+    btn.type = 'button'
+    btn.className = 'tag tag--link'
+    btn.textContent = name
+    btn.title = `Show projects built with ${name}`
+    btn.addEventListener('click', () => setFilter(name, { scroll: true }))
+    tag.replaceWith(btn)
+  })
+
+  /*===== COUNT-UP FIGURES =====*/
+  const counters = $$('[data-count]')
+
+  function countUp(el) {
+    const target = Number(el.dataset.count)
+    const suffix = el.dataset.suffix || ''
+    if (reduceMotion) {
+      el.textContent = target + suffix
+      return
+    }
+    const duration = 900
+    const start = performance.now()
+    const tick = (now) => {
+      const t = Math.min((now - start) / duration, 1)
+      const eased = 1 - Math.pow(1 - t, 3)
+      el.textContent = Math.round(target * eased) + suffix
+      if (t < 1) requestAnimationFrame(tick)
+    }
+    el.textContent = '0' + suffix
+    requestAnimationFrame(tick)
+  }
+
+  /*===== SCROLL REVEAL =====*/
+  const revealEls = $$('[data-reveal]')
+
+  if ('IntersectionObserver' in window) {
+    const reveal = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return
+          const el = entry.target
+          el.classList.add('is-visible')
+          reveal.unobserve(el)
+          el.querySelectorAll('[data-count]').forEach(countUp)
         })
-    }, { threshold: 0.15 })
+      },
+      { threshold: 0.15 }
+    )
+    revealEls.forEach((el) => reveal.observe(el))
+  } else {
+    revealEls.forEach((el) => el.classList.add('is-visible'))
+    counters.forEach((el) => {
+      el.textContent = el.dataset.count + (el.dataset.suffix || '')
+    })
+  }
 
-    revealEls.forEach(el => observer.observe(el))
-} else {
-    revealEls.forEach(el => el.classList.add('is-visible'))
+  /*===== COPY EMAIL =====*/
+  const copyBtn = $('#copy-email')
+  const EMAIL = 'mainalisujeet@gmail.com'
+
+  if (copyBtn) {
+    const label = $('span', copyBtn)
+    const icon = $('i', copyBtn)
+    let resetTimer = null
+
+    function flash(text, icoClass, done) {
+      label.textContent = text
+      icon.className = icoClass
+      copyBtn.classList.toggle('is-done', done)
+      clearTimeout(resetTimer)
+      resetTimer = setTimeout(() => {
+        label.textContent = 'Copy email'
+        icon.className = 'bx bx-copy'
+        copyBtn.classList.remove('is-done')
+      }, 1800)
+    }
+
+    copyBtn.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(EMAIL)
+        flash('Copied', 'bx bx-check', true)
+      } catch (e) {
+        flash('Copy failed', 'bx bx-error-circle', false)
+      }
+    })
+  }
+
+  /*===== GO TO A SECTION =====*/
+// Scrolls to a section, or walks to its room when the house is open (see house.js).
+function goTo(id) {
+  if (window.houseWalk && window.houseWalk.active()) {
+    window.houseWalk.goTo(id)
+    return
+  }
+  document.getElementById(id).scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' })
 }
 
 /*===== FOOTER YEAR =====*/
-const yearEl = document.getElementById('year')
-if (yearEl) {
-    yearEl.textContent = new Date().getFullYear()
-}
+  const year = document.getElementById('year')
+  if (year) year.textContent = new Date().getFullYear()
+})()
