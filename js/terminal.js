@@ -10,7 +10,7 @@
   const out = $('#term-out')
   const form = $('#term-form')
   const input = $('#term-input')
-  const PREFS = 'desk-prefs'
+  const PREFS = 'desk-prefs-2'
   if (!out || !form || !input) return
 
   const prefs = (() => {

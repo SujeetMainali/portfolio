@@ -1424,6 +1424,21 @@ button {
   .menubar__right > .menubar__sys {
     display: none;
   }
+  /* phones: the desktop scrolls so every icon clears the dock */
+  .desktop {
+    overflow-y: auto;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
+  }
+  .desktop::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 880px;
+    width: 1px;
+    height: 1px;
+  }
   /* phones: no sticky note; the headline sits at the top and the icons sit in a grid below it */
   .note {
     display: none;

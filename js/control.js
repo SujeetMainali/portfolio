@@ -6,7 +6,7 @@
   const root = document.documentElement
   const $ = (sel, scope = document) => scope.querySelector(sel)
   const $$ = (sel, scope = document) => [...scope.querySelectorAll(sel)]
-  const PREFS = 'desk-prefs'
+  const PREFS = 'desk-prefs-2'
   const panel = $('#cc')
   const toggle = $('#cc-toggle')
   const sound = $('#cc-sound')
@@ -72,7 +72,7 @@
     return 'aurora'
   }
   function applyWall() {
-    root.setAttribute('data-wall', resolveWall(prefs.wallpaper || 'auto'))
+    root.setAttribute('data-wall', resolveWall(prefs.wallpaper || 'topo'))
   }
   function setWall(choice) {
     if (!['auto', 'dawn', 'aurora', 'topo'].includes(choice)) return
@@ -83,7 +83,7 @@
   }
   // the auto wallpaper changes with the time of day
   setInterval(() => {
-    if ((prefs.wallpaper || 'auto') === 'auto') applyWall()
+    if ((prefs.wallpaper || 'topo') === 'auto') applyWall()
   }, 5 * 60 * 1000)
 
   /*===== SOUND =====*/
@@ -97,7 +97,7 @@
   function render() {
     const choice = themeChoice()
     $$('[data-theme-pick]').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.themePick === choice)))
-    const wall = prefs.wallpaper || 'auto'
+    const wall = prefs.wallpaper || 'topo'
     $$('[data-wall-pick]').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.wallPick === wall)))
     if (note) note.textContent = WALL_NOTES[wall]
     sound.setAttribute('aria-checked', String(!!prefs.sound))
