@@ -162,61 +162,55 @@
     </header>
 
     <main class="main" id="main">
-      <!--===== HOUSE PLAN (walk-through mode) =====-->
+      <!--===== HOUSE (walk-through museum) =====-->
       <section class="house container" id="house" aria-labelledby="house-title" hidden>
-        <div class="house__head">
-          <div>
-            <h2 class="house__title" id="house-title">Walk through the house</h2>
-            <p class="house__sub">Pick a room, or use the arrow keys to move between them.</p>
+        <h2 class="sr-only" id="house-title">Walk through the house</h2>
+
+        <div class="house__bar">
+          <nav class="house__rooms" aria-label="Rooms">
+            <button class="chip" type="button" data-room="home">Entrance</button>
+            <button class="chip" type="button" data-room="about">Study</button>
+            <button class="chip" type="button" data-room="skills">Living room</button>
+            <button class="chip" type="button" data-room="experience">Workshop</button>
+            <button class="chip" type="button" data-room="projects">Gallery</button>
+            <button class="chip" type="button" data-room="certifications">Library</button>
+            <button class="chip" type="button" data-room="contact">Porch</button>
+          </nav>
+          <div class="house__actions">
+            <button class="chip" type="button" id="house-view" aria-pressed="false">Overview</button>
+            <button class="btn btn--ghost btn--sm" type="button" id="house-exit">Leave the house</button>
           </div>
-          <button class="btn btn--ghost btn--sm" type="button" id="house-exit">Leave the house</button>
         </div>
 
-        <div class="house-scene" id="house-scene" aria-hidden="true">
+        <div class="house-scene" id="house-scene">
           <div class="house-labels" id="house-labels"></div>
-        </div>
+          <p class="house-hint" id="house-hint" hidden></p>
+          <p class="house-msg" id="house-msg" hidden></p>
+          <p class="house-help">
+            You are in <strong id="house-now">Entrance hall</strong>
+            <span class="house-help__keys">WASD or arrows to walk · drag to look · click a piece or the floor</span>
+          </p>
 
-        <div class="plan" id="plan">
-          <button class="room" type="button" data-room="about">
-            <span class="room__name">Study</span>
-            <span class="room__meta">Background and 4+ years</span>
-          </button>
-          <button class="room" type="button" data-room="skills">
-            <span class="room__name">Living room</span>
-            <span class="room__meta">33 tools in 4 groups</span>
-          </button>
-          <button class="room" type="button" data-room="experience">
-            <span class="room__name">Workshop</span>
-            <span class="room__meta">3 roles</span>
-          </button>
-          <button class="room" type="button" data-room="projects">
-            <span class="room__name">Gallery</span>
-            <span class="room__meta">6 projects</span>
-          </button>
-          <button class="room" type="button" data-room="certifications">
-            <span class="room__name">Library</span>
-            <span class="room__meta">2 certificates</span>
-          </button>
-          <button class="room" type="button" data-room="contact">
-            <span class="room__name">Porch</span>
-            <span class="room__meta">Email, LinkedIn, GitHub</span>
-          </button>
-          <button class="room room--home" type="button" data-room="home">
-            <span class="room__name">Entrance hall</span>
-            <span class="room__meta">Start here</span>
-          </button>
-        </div>
-
-        <div class="walk">
-          <p class="walk__now">You are in <strong id="walk-now">Entrance hall</strong></p>
-          <div class="walk__btns">
-            <button class="btn btn--ghost btn--sm" type="button" id="walk-prev">
-              <i class="bx bx-left-arrow-alt" aria-hidden="true"></i> Previous room
-            </button>
-            <button class="btn btn--ghost btn--sm" type="button" id="walk-next">
-              Next room <i class="bx bx-right-arrow-alt" aria-hidden="true"></i>
-            </button>
-          </div>
+          <aside class="house-panel" id="house-panel" aria-live="polite" hidden>
+            <header class="house-panel__head">
+              <div>
+                <p class="house-panel__room" id="house-panel-room"></p>
+                <h3 class="house-panel__title" id="house-panel-title"></h3>
+              </div>
+              <button class="icon-btn icon-btn--sm" type="button" id="house-panel-close" aria-label="Close this piece">
+                <i class="bx bx-x" aria-hidden="true"></i>
+              </button>
+            </header>
+            <div class="house-panel__body" id="house-panel-body"></div>
+            <footer class="house-panel__foot">
+              <button class="btn btn--ghost btn--sm" type="button" id="house-panel-prev">
+                <i class="bx bx-left-arrow-alt" aria-hidden="true"></i> Previous
+              </button>
+              <button class="btn btn--ghost btn--sm" type="button" id="house-panel-next">
+                Next <i class="bx bx-right-arrow-alt" aria-hidden="true"></i>
+              </button>
+            </footer>
+          </aside>
         </div>
       </section>
       <!--===== HOME =====-->

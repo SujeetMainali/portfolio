@@ -1106,7 +1106,6 @@ button {
   color: var(--text);
 }
 
-/*===== HOUSE WALKTHROUGH =====*/
 .house-start-btn {
   display: inline-flex;
   align-items: center;
@@ -1127,129 +1126,58 @@ button {
   border-color: var(--accent);
 }
 
-.is-house main > section:not(.house) {
-  display: none;
+/*===== WALK-THROUGH MUSEUM =====*/
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
 }
 
-.is-house main > section.is-current {
-  display: block;
-  padding-top: var(--s-12);
-}
-
-.is-house .hero {
-  min-height: 0;
-  padding-top: var(--s-12);
-}
-
-.is-house #house-start {
+/* in walk-through mode the house is the whole page */
+.is-house main > section:not(.house),
+.is-house .footer {
   display: none;
 }
 
 .house {
-  padding-top: calc(64px + var(--s-12));
+  padding-top: calc(64px + var(--s-4));
   padding-bottom: var(--s-4);
 }
 
-.house__head {
+.house[hidden] {
+  display: none;
+}
+
+.house__bar {
   display: flex;
   flex-wrap: wrap;
-  align-items: flex-end;
+  align-items: center;
   justify-content: space-between;
-  gap: var(--s-4);
-  margin-bottom: var(--s-8);
-  padding-top: var(--s-4);
-  border-top: 1px solid var(--line);
+  gap: var(--s-3);
+  margin-bottom: var(--s-4);
 }
 
-.house__title {
-  font-family: var(--font-display);
-  font-size: var(--step-3);
-  font-weight: 500;
-  line-height: 1.15;
-  letter-spacing: -.01em;
-}
-
-.house__sub {
-  margin-top: var(--s-2);
-  font-size: var(--step--1);
-  color: var(--text-2);
-}
-
-/* the plan: a floor map where each room is a section */
-.plan {
-  position: relative;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: var(--s-2);
-  padding: var(--s-3);
-  border: 1px solid var(--line);
-  border-radius: var(--r-card);
-  background: var(--surface);
-}
-
-.room {
+.house__rooms,
+.house__actions {
   display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+  flex-wrap: wrap;
+  align-items: center;
   gap: var(--s-2);
-  min-height: 96px;
-  padding: var(--s-4);
-  text-align: left;
-  border: 1px solid var(--line);
-  border-radius: var(--r-control);
-  background: var(--bg);
-  cursor: pointer;
-  /* stacked hairlines read as the thickness of a block, then a soft floor shadow */
-  box-shadow:
-    0 1px 0 var(--line),
-    0 2px 0 var(--line),
-    0 3px 0 var(--line),
-    0 18px 24px -14px rgba(20, 20, 18, .35);
-  transition: border-color var(--dur-fast), background-color var(--dur-fast), transform var(--dur) var(--ease);
 }
 
-.room:hover {
-  border-color: var(--text-3);
-}
-
-:root[data-theme="dark"] .room {
-  box-shadow:
-    0 1px 0 var(--line),
-    0 2px 0 var(--line),
-    0 3px 0 var(--line),
-    0 18px 24px -14px rgba(0, 0, 0, .7);
-}
-
-.room[aria-current="true"] {
+.house__rooms .chip[aria-current="true"] {
+  color: var(--accent-ink);
   border-color: var(--accent);
   background: var(--accent-soft);
 }
 
-.room__name {
-  font-family: var(--font-display);
-  font-size: var(--step-1);
-  font-weight: 500;
-  line-height: 1.2;
-}
-
-.room__meta {
-  font-size: var(--step--1);
-  color: var(--text-2);
-}
-
-.room--home {
-  grid-column: 1 / -1;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  min-height: 72px;
-}
-
-/* the 3D scene: a real model with a walking character */
 .house-scene {
   position: relative;
-  height: 480px;
-  margin-bottom: var(--s-6);
+  height: calc(100svh - 64px - 130px);
+  min-height: 480px;
   border: 1px solid var(--line);
   border-radius: var(--r-card);
   background: var(--surface);
@@ -1260,6 +1188,7 @@ button {
   display: block;
   width: 100%;
   height: 100%;
+  outline: none;
 }
 
 .house-labels {
@@ -1287,51 +1216,209 @@ button {
   border-color: var(--accent);
 }
 
-@media screen and (max-width: 767px) {
-  .house-scene {
-    height: 360px;
-  }
-}
-
-.walk {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--s-3);
-  margin-top: var(--s-4);
-}
-
-.walk__now {
+.house-hint,
+.house-msg {
+  position: absolute;
+  left: 50%;
+  top: var(--s-4);
+  transform: translateX(-50%);
+  padding: var(--s-2) var(--s-4);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--surface);
   font-size: var(--step--1);
-  color: var(--text-2);
+  white-space: nowrap;
+  pointer-events: none;
 }
 
-.walk__now strong {
+.house-hint {
+  color: var(--text);
+}
+
+.house-msg {
+  color: var(--text-2);
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.house-help {
+  position: absolute;
+  left: var(--s-4);
+  bottom: var(--s-4);
+  max-width: calc(100% - 2 * var(--s-4));
+  padding: var(--s-2) var(--s-3);
+  border-radius: var(--r-control);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  color: var(--text-2);
+  font-size: var(--step--1);
+  pointer-events: none;
+}
+
+.house-help strong {
   font-weight: 500;
   color: var(--text);
 }
 
-.walk__btns {
-  display: flex;
-  gap: var(--s-2);
+.house-help__keys {
+  margin-left: var(--s-2);
 }
 
-.walk__btns .btn:disabled {
+/* the piece panel sits inside the scene, beside the visitor */
+.house-panel {
+  position: absolute;
+  top: var(--s-4);
+  right: var(--s-4);
+  bottom: var(--s-4);
+  width: min(420px, calc(100% - 2 * var(--s-4)));
+  display: flex;
+  flex-direction: column;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--r-card);
+  box-shadow: 0 16px 40px -24px rgba(20, 20, 18, .4);
+  overflow: hidden;
+}
+
+.house-panel[hidden] {
+  display: none;
+}
+
+.house-panel__head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--s-3);
+  padding: var(--s-5) var(--s-5) var(--s-4);
+  border-bottom: 1px solid var(--line);
+}
+
+.house-panel__room {
+  font-size: var(--step--1);
+  color: var(--accent-ink);
+  margin-bottom: var(--s-1);
+}
+
+.house-panel__title {
+  font-family: var(--font-display);
+  font-size: var(--step-3);
+  font-weight: 500;
+  line-height: 1.15;
+  letter-spacing: -.01em;
+}
+
+.house-panel__body {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding: var(--s-5);
+  overscroll-behavior: contain;
+}
+
+.house-panel__body > div > * + * {
+  margin-top: var(--s-4);
+}
+
+.house-panel__body .section-head {
+  display: none;
+}
+
+.house-panel__body .skill-group__title,
+.house-panel__body .job__role,
+.house-panel__body .project__title,
+.house-panel__body .cert__title {
+  font-family: var(--font-display);
+}
+
+.house-panel__body .job,
+.house-panel__body .job__summary {
+  display: block;
+}
+
+.house-panel__body .job__chev {
+  display: none;
+}
+
+.house-panel__body .job__list {
+  display: grid;
+  gap: var(--s-3);
+  padding: var(--s-3) 0 0;
+  color: var(--text-2);
+}
+
+.house-panel__body .job__list li {
+  position: relative;
+  padding-left: var(--s-5);
+}
+
+.house-panel__body .job__list li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: .65em;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--text-3);
+}
+
+.house-panel__body .project {
+  display: block;
+  border: 0;
+  padding: 0;
+  background: none;
+}
+
+.house-panel__body .project__head {
+  display: none;
+}
+
+.house-panel__body .timeline {
+  padding-left: 0;
+}
+
+.house-panel__body .timeline::before {
+  display: none;
+}
+
+.house-panel__body .job__when {
+  display: block;
+}
+
+.house-panel__foot {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--s-2);
+  padding: var(--s-3) var(--s-5);
+  border-top: 1px solid var(--line);
+}
+
+.house-panel__foot .btn:disabled {
   opacity: .4;
   cursor: default;
   filter: none;
 }
 
-@media screen and (min-width: 768px) {
-  .plan {
-    grid-template-columns: repeat(3, 1fr);
-    gap: var(--s-4);
-    padding: var(--s-4);
-    margin: var(--s-8) var(--s-4) var(--s-12);
+@media screen and (max-width: 767px) {
+  .house-scene {
+    height: 74svh;
+    min-height: 460px;
   }
-  .room {
-    min-height: 128px;
+  .house-panel {
+    top: auto;
+    left: var(--s-2);
+    right: var(--s-2);
+    bottom: var(--s-2);
+    width: auto;
+    max-height: 62%;
+  }
+  .house-help__keys {
+    display: none;
+  }
+  .house-hint {
+    white-space: normal;
+    width: calc(100% - 2 * var(--s-4));
+    text-align: center;
   }
 }
 
