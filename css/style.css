@@ -1136,6 +1136,26 @@ button {
   white-space: nowrap;
 }
 
+.house-start-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-2);
+  border: 0;
+  border-bottom: 1px solid var(--line);
+  padding: 0 0 2px;
+  background: none;
+  font-size: var(--step--1);
+  font-weight: 500;
+  color: var(--text-2);
+  cursor: pointer;
+  transition: color var(--dur-fast), border-color var(--dur-fast);
+}
+
+.house-start-btn:hover {
+  color: var(--accent-ink);
+  border-color: var(--accent);
+}
+
 /* in walk-through mode the house is the whole page */
 .is-house main > section:not(.house),
 .is-house .footer {
@@ -1168,20 +1188,54 @@ button {
   gap: var(--s-2);
 }
 
-.house__rooms .chip[aria-current="true"] {
-  color: var(--accent-ink);
-  border-color: var(--accent);
-  background: var(--accent-soft);
+/* room chips: a colour dot per room, a tick once you have been in it */
+.house__rooms .chip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-2);
 }
 
+.chip__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--room);
+}
+
+.house__rooms .chip.is-visited::after {
+  content: '';
+  width: 6px;
+  height: 6px;
+  margin-left: 2px;
+  border-radius: 50%;
+  background: var(--room);
+  opacity: .9;
+}
+
+.house__rooms .chip[aria-current="true"] {
+  color: var(--text);
+  border-color: var(--room);
+  background: color-mix(in srgb, var(--room) 14%, transparent);
+}
+
+/* the scene: a warm room with light, sized to the viewport */
 .house-scene {
   position: relative;
-  height: calc(100svh - 64px - 130px);
-  min-height: 480px;
+  height: calc(100svh - 64px - 124px);
+  min-height: 500px;
+  border-radius: 20px;
   border: 1px solid var(--line);
-  border-radius: var(--r-card);
-  background: var(--surface);
+  background:
+    radial-gradient(120% 90% at 50% 0%, color-mix(in srgb, var(--accent) 9%, transparent), transparent 60%),
+    linear-gradient(170deg, #f7f1e7 0%, #ece3d4 100%);
   overflow: hidden;
+  isolation: isolate;
+}
+
+:root[data-theme="dark"] .house-scene {
+  background:
+    radial-gradient(120% 90% at 50% 0%, color-mix(in srgb, var(--accent) 10%, transparent), transparent 60%),
+    linear-gradient(170deg, #1f1e1b 0%, #121210 100%);
 }
 
 .house-scene canvas {
@@ -1191,92 +1245,292 @@ button {
   outline: none;
 }
 
+/* shared surface for everything that floats over the scene */
+.house-map,
+.house-room,
+.house-hint,
+.house-toast,
+.house-msg,
+.house-guide,
+.house-panel {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  box-shadow: 0 14px 34px -22px rgba(20, 20, 18, .45);
+}
+
+/* floor plan, top left */
+.house-map {
+  position: absolute;
+  top: var(--s-4);
+  left: var(--s-4);
+  z-index: 3;
+  margin: 0;
+  width: 210px;
+  padding: var(--s-2);
+  border-radius: 14px;
+}
+
+.house-map canvas {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.house-map figcaption {
+  margin-top: var(--s-2);
+  font-size: var(--step--1);
+  color: var(--text-3);
+  padding-left: 2px;
+}
+
+/* current room card, under the map */
+.house-room {
+  position: absolute;
+  top: calc(var(--s-4) + 220px);
+  left: var(--s-4);
+  z-index: 3;
+  width: 210px;
+  max-height: calc(100% - 420px);
+  overflow-y: auto;
+  padding: var(--s-4);
+  border-radius: 14px;
+}
+
+.house-room__eyebrow {
+  font-size: var(--step--1);
+  color: var(--text-3);
+}
+
+.house-room__name {
+  font-family: var(--font-display);
+  font-size: var(--step-1);
+  font-weight: 500;
+  line-height: 1.2;
+  margin-top: 2px;
+  padding-left: var(--s-3);
+  border-left: 3px solid var(--room, var(--accent));
+}
+
+.house-room__meta {
+  margin-top: var(--s-1);
+  font-size: var(--step--1);
+  color: var(--text-2);
+}
+
+.house-room__list {
+  display: grid;
+  gap: 2px;
+  margin-top: var(--s-3);
+}
+
+.house-room__piece {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s-2);
+  padding: var(--s-2) var(--s-2);
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  text-align: left;
+  font-size: var(--step--1);
+  color: var(--text);
+  cursor: pointer;
+  transition: background-color var(--dur-fast);
+}
+
+.house-room__piece:hover {
+  background: color-mix(in srgb, var(--room, var(--accent)) 12%, transparent);
+}
+
+.house-room__piece i {
+  flex-shrink: 0;
+  color: var(--text-3);
+  font-size: 1rem;
+}
+
+.house-room__piece.is-viewed i {
+  color: var(--room, var(--accent));
+}
+
+.house-room__piece.is-viewed span {
+  color: var(--text-2);
+}
+
+.house-room__next {
+  width: 100%;
+  margin-top: var(--s-3);
+  justify-content: center;
+}
+
+/* joystick, bottom left */
+.house-joy {
+  position: absolute;
+  left: var(--s-4);
+  bottom: var(--s-4);
+  z-index: 3;
+  width: 132px;
+  height: 132px;
+  touch-action: none;
+  user-select: none;
+}
+
+.house-joy__ring {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--surface) 88%, transparent);
+  border: 1px solid var(--line);
+  box-shadow: inset 0 0 0 10px color-mix(in srgb, var(--accent) 5%, transparent), 0 14px 30px -20px rgba(20, 20, 18, .5);
+}
+
+.house-joy__knob {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 44px;
+  height: 44px;
+  margin: -22px 0 0 -22px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 6px 16px -6px rgba(20, 20, 18, .6);
+  transition: transform .12s ease-out;
+  cursor: grab;
+}
+
+/* labels in 3D: rooms (overview) and doorways (walking) */
 .house-labels {
   position: absolute;
   inset: 0;
   pointer-events: none;
+  z-index: 1;
 }
 
 .house-label {
   position: absolute;
   left: 0;
   top: 0;
-  padding: 2px var(--s-2);
-  border: 1px solid var(--line);
-  border-radius: var(--r-tag);
+  padding: 4px 10px;
+  border-radius: 999px;
   background: var(--surface);
-  color: var(--text-2);
+  border: 1px solid var(--line);
+  color: var(--text);
   font-size: var(--step--1);
   white-space: nowrap;
+  box-shadow: 0 8px 20px -14px rgba(20, 20, 18, .5);
   will-change: transform;
 }
 
-.house-label.is-active {
-  color: var(--text);
-  border-color: var(--accent);
+.house-label--room::before,
+.house-label--door::before {
+  content: '';
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  margin-right: 6px;
+  border-radius: 50%;
+  background: var(--room, var(--accent));
+  vertical-align: middle;
 }
 
+.house-label--room.is-active {
+  border-color: var(--room, var(--accent));
+  font-weight: 500;
+}
+
+.house-label--door {
+  border-color: var(--room, var(--accent));
+  color: var(--text);
+}
+
+/* hints and messages, top centre */
 .house-hint,
+.house-toast,
 .house-msg {
   position: absolute;
   left: 50%;
-  top: var(--s-4);
   transform: translateX(-50%);
+  z-index: 4;
   padding: var(--s-2) var(--s-4);
-  border: 1px solid var(--line);
   border-radius: 999px;
-  background: var(--surface);
   font-size: var(--step--1);
   white-space: nowrap;
   pointer-events: none;
 }
 
 .house-hint {
+  top: var(--s-4);
   color: var(--text);
+}
+
+.house-toast {
+  top: calc(var(--s-4) + 46px);
+  color: var(--text-2);
+  transition: opacity .3s;
 }
 
 .house-msg {
-  color: var(--text-2);
   top: 50%;
   transform: translate(-50%, -50%);
-}
-
-.house-help {
-  position: absolute;
-  left: var(--s-4);
-  bottom: var(--s-4);
-  max-width: calc(100% - 2 * var(--s-4));
-  padding: var(--s-2) var(--s-3);
-  border-radius: var(--r-control);
-  background: var(--surface);
-  border: 1px solid var(--line);
   color: var(--text-2);
-  font-size: var(--step--1);
-  pointer-events: none;
 }
 
-.house-help strong {
+/* first-visit guide, bottom centre */
+.house-guide {
+  position: absolute;
+  left: 50%;
+  bottom: var(--s-4);
+  transform: translateX(-50%);
+  z-index: 5;
+  width: min(460px, calc(100% - 260px));
+  padding: var(--s-5);
+  border-radius: 18px;
+}
+
+.house-guide__title {
+  font-family: var(--font-display);
+  font-size: var(--step-1);
   font-weight: 500;
-  color: var(--text);
+  margin-bottom: var(--s-3);
 }
 
-.house-help__keys {
-  margin-left: var(--s-2);
+.house-guide__list {
+  display: grid;
+  gap: var(--s-2);
+  margin-bottom: var(--s-4);
+  font-size: var(--step--1);
+  color: var(--text-2);
 }
 
-/* the piece panel sits inside the scene, beside the visitor */
+.house-guide__short {
+  display: none;
+  font-size: var(--step--1);
+  color: var(--text-2);
+  margin-bottom: var(--s-3);
+}
+
+.house-guide__list span {
+  display: inline-block;
+  min-width: 74px;
+  font-weight: 500;
+  color: var(--accent-ink);
+}
+
+/* the piece panel, right */
 .house-panel {
   position: absolute;
   top: var(--s-4);
   right: var(--s-4);
   bottom: var(--s-4);
-  width: min(420px, calc(100% - 2 * var(--s-4)));
+  z-index: 6;
+  width: min(420px, calc(100% - 260px));
   display: flex;
   flex-direction: column;
-  background: var(--surface);
-  border: 1px solid var(--line);
-  border-radius: var(--r-card);
-  box-shadow: 0 16px 40px -24px rgba(20, 20, 18, .4);
+  border-radius: 18px;
+  border-top: 4px solid var(--room, var(--accent));
   overflow: hidden;
 }
 
@@ -1295,7 +1549,7 @@ button {
 
 .house-panel__room {
   font-size: var(--step--1);
-  color: var(--accent-ink);
+  color: var(--text-3);
   margin-bottom: var(--s-1);
 }
 
@@ -1319,24 +1573,24 @@ button {
   margin-top: var(--s-4);
 }
 
-.house-panel__body .section-head {
+.house-panel__body .section-head,
+.house-panel__body .project__head,
+.house-panel__body .skill-group__title {
   display: none;
-}
-
-.house-panel__body .skill-group__title,
-.house-panel__body .job__role,
-.house-panel__body .project__title,
-.house-panel__body .cert__title {
-  font-family: var(--font-display);
-}
-
-.house-panel__body .job,
-.house-panel__body .job__summary {
-  display: block;
 }
 
 .house-panel__body .job__chev {
   display: none;
+}
+
+.house-panel__body .job__summary {
+  display: block;
+  padding: 0;
+}
+
+.house-panel__body .job__main {
+  display: flex;
+  flex-direction: column;
 }
 
 .house-panel__body .job__list {
@@ -1359,7 +1613,7 @@ button {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: var(--text-3);
+  background: var(--room, var(--accent));
 }
 
 .house-panel__body .project {
@@ -1369,20 +1623,12 @@ button {
   background: none;
 }
 
-.house-panel__body .project__head {
-  display: none;
-}
-
 .house-panel__body .timeline {
   padding-left: 0;
 }
 
 .house-panel__body .timeline::before {
   display: none;
-}
-
-.house-panel__body .job__when {
-  display: block;
 }
 
 .house-panel__foot {
@@ -1399,10 +1645,67 @@ button {
   filter: none;
 }
 
-@media screen and (max-width: 767px) {
+/* the panel covers the right side, so the room card and joystick stay clear of it */
+.house-scene.has-panel .house-joy {
+  display: none;
+}
+
+@media screen and (max-width: 900px) {
   .house-scene {
-    height: 74svh;
-    min-height: 460px;
+    height: calc(100svh - 64px - 150px);
+    min-height: 420px;
+  }
+  /* one scrolling row of rooms, so the scene keeps its height on phones */
+  .house__bar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .house__rooms {
+    flex-wrap: nowrap;
+    min-width: 0;
+    width: 100%;
+    overflow-x: auto;
+    scrollbar-width: none;
+    padding-bottom: 2px;
+  }
+  .house__rooms::-webkit-scrollbar {
+    display: none;
+  }
+  .house__rooms .chip {
+    flex-shrink: 0;
+  }
+  .house__actions {
+    justify-content: space-between;
+  }
+  .house-map {
+    width: 150px;
+  }
+  .house-room {
+    display: none;
+  }
+  .house-joy {
+    width: 112px;
+    height: 112px;
+    left: var(--s-3);
+    bottom: var(--s-3);
+  }
+  .house-joy__knob {
+    width: 38px;
+    height: 38px;
+    margin: -19px 0 0 -19px;
+  }
+  .house-guide {
+    width: calc(100% - 2 * var(--s-3) - 128px);
+    left: calc(var(--s-3) + 124px);
+    bottom: var(--s-3);
+    transform: none;
+    padding: var(--s-4);
+  }
+  .house-guide__list {
+    display: none;
+  }
+  .house-guide__short {
+    display: block;
   }
   .house-panel {
     top: auto;
@@ -1410,15 +1713,16 @@ button {
     right: var(--s-2);
     bottom: var(--s-2);
     width: auto;
-    max-height: 62%;
+    max-height: 64%;
   }
-  .house-help__keys {
+}
+
+@media screen and (max-width: 560px) {
+  .house-label {
+    font-size: 11px;
+  }
+  .house-toast {
     display: none;
-  }
-  .house-hint {
-    white-space: normal;
-    width: calc(100% - 2 * var(--s-4));
-    text-align: center;
   }
 }
 

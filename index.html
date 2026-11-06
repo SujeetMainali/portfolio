@@ -167,14 +167,14 @@
         <h2 class="sr-only" id="house-title">Walk through the house</h2>
 
         <div class="house__bar">
-          <nav class="house__rooms" aria-label="Rooms">
-            <button class="chip" type="button" data-room="home">Entrance</button>
-            <button class="chip" type="button" data-room="about">Study</button>
-            <button class="chip" type="button" data-room="skills">Living room</button>
-            <button class="chip" type="button" data-room="experience">Workshop</button>
-            <button class="chip" type="button" data-room="projects">Gallery</button>
-            <button class="chip" type="button" data-room="certifications">Library</button>
-            <button class="chip" type="button" data-room="contact">Porch</button>
+          <nav class="house__rooms" aria-label="Go to a room">
+            <button class="chip" type="button" data-room="home" style="--room: #c8875a"><span class="chip__dot" aria-hidden="true"></span>Entrance</button>
+            <button class="chip" type="button" data-room="about" style="--room: #7f9e96"><span class="chip__dot" aria-hidden="true"></span>Study</button>
+            <button class="chip" type="button" data-room="skills" style="--room: #d9a441"><span class="chip__dot" aria-hidden="true"></span>Living room</button>
+            <button class="chip" type="button" data-room="experience" style="--room: #6f86a6"><span class="chip__dot" aria-hidden="true"></span>Workshop</button>
+            <button class="chip" type="button" data-room="projects" style="--room: #c4655a"><span class="chip__dot" aria-hidden="true"></span>Gallery</button>
+            <button class="chip" type="button" data-room="certifications" style="--room: #8d9a5b"><span class="chip__dot" aria-hidden="true"></span>Library</button>
+            <button class="chip" type="button" data-room="contact" style="--room: #5fa3b8"><span class="chip__dot" aria-hidden="true"></span>Porch</button>
           </nav>
           <div class="house__actions">
             <button class="chip" type="button" id="house-view" aria-pressed="false">Overview</button>
@@ -184,12 +184,40 @@
 
         <div class="house-scene" id="house-scene">
           <div class="house-labels" id="house-labels"></div>
+
+          <figure class="house-map">
+            <canvas id="house-minimap" width="420" height="300" aria-label="Floor plan. Tap a room to walk there."></canvas>
+            <figcaption>Floor plan</figcaption>
+          </figure>
+
+          <aside class="house-room" aria-live="polite">
+            <p class="house-room__eyebrow">You are in</p>
+            <h3 class="house-room__name" id="house-room-name">Entrance hall</h3>
+            <p class="house-room__meta" id="house-room-meta"></p>
+            <ul class="house-room__list" id="house-room-list"></ul>
+            <button class="btn btn--sm house-room__next" type="button" id="house-next" hidden></button>
+          </aside>
+
+          <div class="house-joy" id="house-joy" aria-label="Move joystick" role="application">
+            <div class="house-joy__ring"></div>
+            <div class="house-joy__knob" id="house-joy-knob"></div>
+          </div>
+
           <p class="house-hint" id="house-hint" hidden></p>
+          <p class="house-toast" id="house-toast" hidden></p>
           <p class="house-msg" id="house-msg" hidden></p>
-          <p class="house-help">
-            You are in <strong id="house-now">Entrance hall</strong>
-            <span class="house-help__keys">WASD or arrows to walk · drag to look · click a piece or the floor</span>
-          </p>
+
+          <div class="house-guide" id="house-guide" hidden>
+            <p class="house-guide__title">Welcome to the house</p>
+            <p class="house-guide__short">Move with the joystick. Tap a piece to read it. Doorways lead to the next room.</p>
+            <ul class="house-guide__list">
+              <li><span>Walk</span> with the joystick, or WASD and the arrow keys</li>
+              <li><span>Look</span> around by dragging the scene</li>
+              <li><span>Open</span> a piece by clicking it, or press E when you are near it</li>
+              <li><span>Move on</span> through the glowing doorways, or pick a room above</li>
+            </ul>
+            <button class="btn btn--sm" type="button" id="house-guide-close">Got it</button>
+          </div>
 
           <aside class="house-panel" id="house-panel" aria-live="polite" hidden>
             <header class="house-panel__head">
